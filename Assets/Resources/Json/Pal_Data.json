@@ -1,0 +1,35 @@
+{
+  "pal_Datas": [
+    {
+      "Id": "1",
+      "name": "Pal_Cylinder",
+      "level": "1",
+      "maxHp": "100.0",
+      "curHp": "100,0",
+      "attackPower": "5",
+      "defensePower": "3",
+      "moveSpeed": "1"
+    },
+    {
+      "Id": "2",
+      "name": "Pal_Cube",
+      "level": "3",
+      "maxHp": "200.0",
+      "curHp": "200,0",
+      "attackPower": "10",
+      "defensePower": "5",
+      "moveSpeed": "2"
+    },
+    {
+      "Id": "3",
+      "name": "Pal_Sphere",
+      "level": "5",
+      "maxHp": "300.0",
+      "curHp": "300,0",
+      "attackPower": "15",
+      "defensePower": "7",
+      "moveSpeed": "3"
+    }
+
+  ]
+}
