@@ -6,7 +6,9 @@ TagManager:
   tags:
   - Anchor
   - Monster
-  - Catch_PalBall
+  - Undefined
+  - Pal_Ball
+  - Ground
   layers:
   - Default
   - TransparentFX

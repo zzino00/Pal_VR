@@ -1446,6 +1446,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SwitchBallMode",
+                    "type": "Value",
+                    "id": "a242f8c9-196b-4447-9e12-99038afc0e39",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -1602,6 +1611,17 @@
                     "action": "SummonPal",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3e71c0af-17d2-44ea-8024-0c8b6bfb669b",
+                    "path": "<XRController>{RightHand}/primary2DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchBallMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -1609,24 +1629,6 @@
             "name": "XRI RightHand Locomotion",
             "id": "99ce76d3-82c5-4289-9670-2ecffa6833fd",
             "actions": [
-                {
-                    "name": "Teleport Mode Activate",
-                    "type": "Value",
-                    "id": "a6c7231d-c55d-4dd4-9e87-877bb5522ef5",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Teleport Direction",
-                    "type": "Value",
-                    "id": "b950a329-6492-4e29-b563-afc726f81e95",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
                 {
                     "name": "Turn",
                     "type": "Value",
@@ -1646,15 +1648,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Grab Move",
-                    "type": "Button",
-                    "id": "cfb29d37-3db0-4e5d-a73b-7d48a19e279e",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Snap Turn",
                     "type": "Value",
                     "id": "44441ad6-5762-466d-ad54-aa44fcd61a5c",
@@ -1665,17 +1658,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "62690862-4688-4010-975b-b3d9c6062157",
-                    "path": "<XRController>{RightHand}/primary2DAxis",
-                    "interactions": "Sector(directions=1)",
-                    "processors": "",
-                    "groups": "Generic XR Controller",
-                    "action": "Teleport Mode Activate",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "d6c08c3d-3d41-4695-994d-1ac9016a5a9e",
@@ -1695,28 +1677,6 @@
                     "processors": "StickDeadzone",
                     "groups": "Continuous Move",
                     "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c4b46d7d-8231-4672-83f9-75af565faf57",
-                    "path": "<XRController>{RightHand}/primary2DAxis",
-                    "interactions": "Sector(directions=-1)",
-                    "processors": "",
-                    "groups": "Noncontinuous Move",
-                    "action": "Teleport Direction",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7ecb549e-ab98-4a4b-b979-38068fe3b811",
-                    "path": "<XRController>{RightHand}/gripPressed",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Generic XR Controller",
-                    "action": "Grab Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

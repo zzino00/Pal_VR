@@ -43,7 +43,7 @@ public class TeleportationManager : MonoBehaviour
         if (actionManager.moveMode != ActionManager.MoveMode.Teleport)// 이동모드가 Teleport가 아니면 이동못하게
             return;
 
-      if(!_isActive)
+        if(!_isActive)
          return;
 
         if (_thumstick.triggered)// 누르고있는 중에는 이동못하게
@@ -56,11 +56,13 @@ public class TeleportationManager : MonoBehaviour
             return;
         }
 
+       // Debug.Log(_thumstick.triggered);
+
         TeleportRequest request = new TeleportRequest();
 
         request.destinationPosition = hit.point;// 이동할장소를 ray가 부딪힌 장소로 설정
-        
 
+        Debug.Log("Teleport");
 
         teleportProvider.QueueTeleportRequest(request);// 이동시키기
         _isActive = false;// 이동시킨후에는 꺼주기

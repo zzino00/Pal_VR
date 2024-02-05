@@ -19,7 +19,7 @@ public class Monster : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (palState == PalState.Wild && collision.gameObject.tag == "Catch_PalBall")
+        if (palState == PalState.Wild && collision.gameObject.tag == "Pal_Ball")
         {
             this.gameObject.SetActive(false);
         }
