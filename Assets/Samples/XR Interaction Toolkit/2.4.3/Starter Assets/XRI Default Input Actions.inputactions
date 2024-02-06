@@ -1455,6 +1455,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "ScrollPalActivate",
+                    "type": "Button",
+                    "id": "91ccf267-af67-4d89-9605-0fb63359771c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ScrolPal",
+                    "type": "Value",
+                    "id": "f545a6e4-9abc-44e7-9f9b-92d809dc53ce",
+                    "expectedControlType": "Quaternion",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -1620,6 +1638,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "SwitchBallMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bca0e4cf-0485-484b-b67f-c5536faf0906",
+                    "path": "<XRController>{RightHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScrollPalActivate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fe101c5b-7ee5-488e-aeba-57552976aaa7",
+                    "path": "<XRController>{RightHand}/deviceRotation",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScrolPal",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

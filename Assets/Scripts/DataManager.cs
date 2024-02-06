@@ -36,10 +36,10 @@ public class DataManager : MonoBehaviour
     {
         instance = this;
         TextAsset textAsset = Resources.Load<TextAsset>("Json/Pal_Data");
-        Pal_Data data = JsonUtility.FromJson<Pal_Data>(textAsset.text);
-        foreach (Pal_Stat pal_Stat in data.pal_Datas)
+        Pal_Data data = JsonUtility.FromJson<Pal_Data>(textAsset.text);// 우선 리스트에 저장후
+        foreach (Pal_Stat pal_Stat in data.pal_Datas)//
         {
-            dict.Add(pal_Stat.Id, pal_Stat);
+            dict.Add(pal_Stat.Id, pal_Stat);// Dictionary에 넣어준다.
         }
     }
 }

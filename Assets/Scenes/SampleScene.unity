@@ -1208,6 +1208,17 @@ Transform:
   m_Father: {fileID: 74720044}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1099545918 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8953790413142702621, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
+  m_PrefabInstance: {fileID: 2496039106687938760}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caff514de9b15ad48ab85dcff5508221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1184632942
 GameObject:
   m_ObjectHideFlags: 0
@@ -2938,7 +2949,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 1.345e-42, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 2.2e-44, z: 2.4405384e-30, w: -1.7269762e+29}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -3728,6 +3739,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 197182048432222602, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 197182048432222602, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
       propertyPath: m_AllowHoverHapticsWhileSelecting
       value: 1
       objectReference: {fileID: 0}
@@ -3735,6 +3750,10 @@ PrefabInstance:
       propertyPath: palBall
       value: 
       objectReference: {fileID: 1268930627298166266}
+    - target: {fileID: 4864121551207436397, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
+      propertyPath: playerUI
+      value: 
+      objectReference: {fileID: 257983720}
     - target: {fileID: 4864121551207436397, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
       propertyPath: summonTrs
       value: 
@@ -3755,6 +3774,10 @@ PrefabInstance:
       propertyPath: palBallGo
       value: 
       objectReference: {fileID: 1268930627298166266}
+    - target: {fileID: 5250767947122394744, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
+      propertyPath: rBaseController
+      value: 
+      objectReference: {fileID: 1099545918}
     - target: {fileID: 7225992064653809475, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
       propertyPath: m_RootOrder
       value: 4
