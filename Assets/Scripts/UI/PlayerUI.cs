@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerUI : MonoBehaviour
 {
     public TMP_Text moveModeText;
-    public TMP_Text BallModeText;
+    public TMP_Text ModeText;
     void Start()
     {
         

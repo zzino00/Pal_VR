@@ -1792,9 +1792,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99eb834dc250c644a9876a45e5331fec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPalList: 
+  myWeaponList: []
   monsterGoList: []
   palBall: {fileID: 0}
   summonTrs: {fileID: 0}
   summonedPal: {fileID: 0}
+  Index: 0
   playerUI: {fileID: 0}
+  equipedWeapon: {fileID: 0}
+  RightHand: {fileID: 0}
+  LeftHand: {fileID: 0}

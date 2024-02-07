@@ -23,7 +23,7 @@ public class Pal_Ball : MonoBehaviour
         if (ballState ==BallState.Catch&& collision.gameObject.tag == "Monster")
         {
             Debug.Log("monster Captured");
-            player.myPalList.Add(collision.gameObject.GetComponent<Monster>().myId);
+           // player.myPalList.Add(collision.gameObject.GetComponent<Monster>().myId);
             player.monsterGoList.Add (collision.gameObject);
             gameObject.SetActive(false);
            

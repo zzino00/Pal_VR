@@ -9,6 +9,7 @@ TagManager:
   - Undefined
   - Pal_Ball
   - Ground
+  - RightHand
   layers:
   - Default
   - TransparentFX

@@ -30,7 +30,7 @@ public class ActionManager : MonoBehaviour
     {
         Weapon,
         Pal,
-        PalBall,
+        Catch,
         Inven
     }
 
@@ -55,6 +55,46 @@ public class ActionManager : MonoBehaviour
     bool isRightThumbUp;
     bool isRightThumbDown;
 
+    List<GameObject> TargetList = new List<GameObject>();
+    public void ScrollList(float TriggerValue)
+    {
+      
+        switch (modeSelect)
+        {
+            case ModeSelect.Weapon:
+                TargetList = player.myWeaponList;
+                break;
+            case ModeSelect.Pal:
+                TargetList = player.monsterGoList;
+                break;
+        }
+        if (TriggerValue > 0.5 && TargetList.Count != 0)// 트리거가 당겨져있는 상태에서
+        {
+            if (rightHandRotationZ > 10 && rightHandRotationZ < 160)// 오른손 콘솔이 오른쪽으로 일정이상 기울어지면
+            {
+                ScrollSpeed++;
+                if (ScrollSpeed >= palListScrollSpeedCount)// 리스트가 넘어가는 속도조절
+                {
+                    rBaseController.SendHapticImpulse(0.7f, 0.3f);// 진동주기
+
+                    switch(modeSelect)
+                    {
+                        case ModeSelect.Weapon:
+                            player.ChooseWeapon();
+                            break;
+                        case ModeSelect.Pal:
+                            player.ChoosePal();
+                            break;
+                    }
+
+                    ScrollSpeed = 0;
+                }
+
+            }
+
+
+        }
+    }
     private void Update()
     {
         teleportValue = inputActionAsset.actionMaps[2].actions[9].ReadValue<float>();// 왼손콘솔 X버튼값 받아오기 누르고있으면 1, 아니면 0
@@ -65,29 +105,31 @@ public class ActionManager : MonoBehaviour
 
 
         #region SelectMonsterTo Spawn
-        if (TriggerValue >0.5&&player.myPalList.Count !=0)// 트리거가 당겨져있는 상태에서
-        {
-          if( rightHandRotationZ > 10 && rightHandRotationZ <160)// 오른손 콘솔이 오른쪽으로 일정이상 기울어지면
-            {
-                ScrollSpeed++;
-                if(ScrollSpeed>=palListScrollSpeedCount)// 리스트가 넘어가는 속도조절
-                {
-                  
-                    rBaseController.SendHapticImpulse(0.7f, 0.3f);// 진동주기
-                    player.ChoosePal();// 리스트 넘기는 함수
-                    ScrollSpeed = 0;
-                }
-             
-            }
-          
-         
-        }
+        ScrollList(TriggerValue);
+
+        //if (TriggerValue >0.5&&player.monsterGoList.Count !=0)// 트리거가 당겨져있는 상태에서
+        //{
+        //  if( rightHandRotationZ > 10 && rightHandRotationZ <160)// 오른손 콘솔이 오른쪽으로 일정이상 기울어지면
+        //    {
+        //        ScrollSpeed++;
+        //        if(ScrollSpeed>=palListScrollSpeedCount)// 리스트가 넘어가는 속도조절
+        //        {
+
+        //            rBaseController.SendHapticImpulse(0.7f, 0.3f);// 진동주기
+        //            player.ChoosePal();// 리스트 넘기는 함수
+        //            ScrollSpeed = 0;
+        //        }
+
+        //    }
+
+
+        //}
         #endregion
 
 
 
-        #region SelectMode
-      
+        #region SelectMode // 모드 선택
+
         if (rightThumbValue.y > 0.5) // 오른손 조이스틱이 위쪽으로 밀려있는 상태에서
         {
             isRightThumbUp = true;
@@ -101,7 +143,14 @@ public class ActionManager : MonoBehaviour
             }
 
             Debug.Log(modeSelect);
+            player.Index = 0;
             isRightThumbUp = false;
+
+            if (modeSelect != ModeSelect.Weapon)
+            {
+                player.equipedWeapon.SetActive(false);
+            }
+            playerUI.ModeText.text = modeSelect.ToString();
         }
 
         if (rightThumbValue.y < -0.5) // 오른손 조이스틱이 위쪽으로 밀려있는 상태에서
@@ -117,11 +166,32 @@ public class ActionManager : MonoBehaviour
             }
 
             Debug.Log(modeSelect);
+            player.Index = 0;
             isRightThumbDown = false;
+            if (modeSelect != ModeSelect.Weapon)
+            {
+                player.equipedWeapon.SetActive(false);
+            }
+            playerUI.ModeText.text = modeSelect.ToString();
         }
+
+    
         #endregion
 
-        //#region SelectPalBallMode
+        #region SelectPalBallMode
+
+        if(modeSelect == ModeSelect.Catch)
+        {
+            palBall = palBallGo.GetComponent<Pal_Ball>();
+            palBall.ballState = Pal_Ball.BallState.Catch;
+            
+        }
+
+        if (modeSelect == ModeSelect.Pal)
+        {
+            palBall = palBallGo.GetComponent<Pal_Ball>();
+            palBall.ballState = Pal_Ball.BallState.Summon;
+        }
         //if (rightThumbValue.y>0.5) // 오른손 조이스틱이 위쪽으로 밀려있는 상태에서
         //{
         //    isRightThumb = true;
@@ -142,29 +212,33 @@ public class ActionManager : MonoBehaviour
 
         //    isRightThumb = false;
         //}
-        //#endregion
+        #endregion
 
 
         #region Spawing&Releasing PalBall
 
-        if (summonButtonValue==1&& isSummonPressed == false)// 버튼을 누르고 있는 값이 float값으로 들어오기
-                                                            // 때문에 업데이트에서 1번만 실행되게 하려면 이러한 방법을 써야한다.
+        if(modeSelect == ModeSelect.Catch || modeSelect == ModeSelect.Pal)
         {
-            isHoldingBall = !isHoldingBall; // 공을 소환한 상태
-            isSummonPressed = true;
-        }
-        if(summonButtonValue == 0)
-        {
-            isSummonPressed = false;
-        }
+            if (summonButtonValue == 1 && isSummonPressed == false)// 버튼을 누르고 있는 값이 float값으로 들어오기
+                                                                   // 때문에 업데이트에서 1번만 실행되게 하려면 이러한 방법을 써야한다.
+            {
+                isHoldingBall = !isHoldingBall; // 공을 소환한 상태
+                isSummonPressed = true;
+            }
+            if (summonButtonValue == 0)
+            {
+                isSummonPressed = false;
+            }
 
-        if (isHoldingBall)
-        {
-            rightHandPos = this.transform.position+inputActionAsset.actionMaps[4].actions[0].ReadValue<Vector3>();// 오른손 컨트롤러 값 받아오기
-            palBallGo.transform.localPosition = rightHandPos;
-            player.UnsummonPal();// 공을 손으로 가져올때는 몬스터 역소환 ToDo: 내 몬스터는 소환한 상태로 포획용 볼을 꺼낼수도 있으니까 수정해야할수도
-            palBallGo.SetActive(true);
+            if (isHoldingBall)
+            {
+                rightHandPos = this.transform.position + inputActionAsset.actionMaps[4].actions[0].ReadValue<Vector3>();// 오른손 컨트롤러 값 받아오기
+                palBallGo.transform.localPosition = rightHandPos;
+                player.UnsummonPal();// 공을 손으로 가져올때는 몬스터 역소환 ToDo: 내 몬스터는 소환한 상태로 포획용 볼을 꺼낼수도 있으니까 수정해야할수도
+                palBallGo.SetActive(true);
+            }
         }
+        
 
         #endregion
 

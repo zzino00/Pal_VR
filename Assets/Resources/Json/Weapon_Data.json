@@ -1,0 +1,24 @@
+{
+  "weapon_Datas": [
+    {
+      "Id": "1",
+      "name": "Sword",
+      "damage": "5",
+      "durability": "7"
+
+    },
+    {
+      "Id": "2",
+      "name": "Bow",
+      "damage": "2",
+      "durability": "10"
+
+    },
+    {
+      "Id": "3",
+      "name": "axe",
+      "damage": "7",
+      "durability": "12"
+    }
+  ]
+}
