@@ -7,6 +7,10 @@ public class Monster : MonoBehaviour
    public int myId = 1;
    public Pal_Stat myStat;
    public PalState palState = PalState.Wild;
+    public float catchProb;
+
+    public  MonsterUI monsterUI;
+  
     public enum PalState
     {
         Wild,
@@ -14,14 +18,33 @@ public class Monster : MonoBehaviour
     }
     void Start()
     {
-       
+        DataManager.instance.palDict.TryGetValue(myId,out myStat);
+        monsterUI = gameObject.GetComponentInChildren<MonsterUI>();
+        monsterUI.monsterName.text = myStat.name;   
+        monsterUI.catchProb.text = catchProb.ToString();
+        monsterUI.slider.value = myStat.curHp / myStat.maxHp;
     }
-
-    private void OnCollisionEnter(Collision collision)
+   
+    private void OnTriggerEnter(Collider other)
     {
-        if (palState == PalState.Wild && collision.gameObject.tag == "Pal_Ball")
+        monsterUI.catchProb.text = catchProb.ToString();
+        monsterUI.slider.value = myStat.curHp / myStat.maxHp;
+        if (myStat.curHp > 0)
         {
-            this.gameObject.SetActive(false);
+            catchProb = (myStat.maxHp / myStat.curHp) / 10;
+        }
+
+        if (palState == PalState.Wild && other.gameObject.tag == "Weapon")
+        {
+            Debug.Log("Hit");
+
+            myStat.curHp -= other.gameObject.GetComponent<Weapon>().myStat.damage;
+            if (myStat.curHp < 0)
+            {
+                myStat.curHp = 0;
+                this.gameObject.SetActive(false);
+            }
+
         }
     }
 }

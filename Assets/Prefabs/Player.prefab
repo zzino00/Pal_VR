@@ -1780,6 +1780,7 @@ MonoBehaviour:
   palBallGo: {fileID: 0}
   playerUI: {fileID: 0}
   moveMode: 0
+  isScroll: 0
 --- !u!114 &4864121551207436397
 MonoBehaviour:
   m_ObjectHideFlags: 0

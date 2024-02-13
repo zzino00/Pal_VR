@@ -10,6 +10,7 @@ TagManager:
   - Pal_Ball
   - Ground
   - RightHand
+  - Weapon
   layers:
   - Default
   - TransparentFX

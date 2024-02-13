@@ -54,6 +54,8 @@ public class ActionManager : MonoBehaviour
     int palIndex;
     bool isRightThumbUp;
     bool isRightThumbDown;
+    bool isScrollRight;
+    public bool isScroll;
 
     List<GameObject> TargetList = new List<GameObject>();
     public void ScrollList(float TriggerValue)
@@ -63,15 +65,39 @@ public class ActionManager : MonoBehaviour
         {
             case ModeSelect.Weapon:
                 TargetList = player.myWeaponList;
+              
                 break;
             case ModeSelect.Pal:
                 TargetList = player.monsterGoList;
+              
                 break;
         }
+
+       
+       
         if (TriggerValue > 0.5 && TargetList.Count != 0)// 트리거가 당겨져있는 상태에서
         {
+            isScroll = false;
+            switch (modeSelect)
+            {
+                case ModeSelect.Weapon:
+                    player.ChooseWeapon(isScrollRight);
+
+                    break;
+                case ModeSelect.Pal:
+                    player.ChoosePal(isScrollRight);
+
+                    break;
+            }
+
+            playerUI.ModeNextText.gameObject.SetActive(true);
+            playerUI.ModePreviousText.gameObject.SetActive(true);
+            playerUI.ModeText.color = Color.green;
+
             if (rightHandRotationZ > 10 && rightHandRotationZ < 160)// 오른손 콘솔이 오른쪽으로 일정이상 기울어지면
             {
+                isScroll = true;
+                isScrollRight = true;
                 ScrollSpeed++;
                 if (ScrollSpeed >= palListScrollSpeedCount)// 리스트가 넘어가는 속도조절
                 {
@@ -80,10 +106,10 @@ public class ActionManager : MonoBehaviour
                     switch(modeSelect)
                     {
                         case ModeSelect.Weapon:
-                            player.ChooseWeapon();
+                            player.ChooseWeapon(isScrollRight);
                             break;
                         case ModeSelect.Pal:
-                            player.ChoosePal();
+                            player.ChoosePal(isScrollRight);
                             break;
                     }
 
@@ -92,9 +118,42 @@ public class ActionManager : MonoBehaviour
 
             }
 
+            if (rightHandRotationZ <350 && rightHandRotationZ >160)// 오른손 콘솔이 오른쪽으로 일정이상 기울어지면
+            {
+                isScroll = true;
+                isScrollRight = false;
+                ScrollSpeed++;
+                if (ScrollSpeed >= palListScrollSpeedCount)// 리스트가 넘어가는 속도조절
+                {
+                    rBaseController.SendHapticImpulse(0.7f, 0.3f);// 진동주기
+
+                    switch (modeSelect)
+                    {
+                        case ModeSelect.Weapon:
+                            player.ChooseWeapon(isScrollRight);
+                            break;
+                        case ModeSelect.Pal:
+                            player.ChoosePal(isScrollRight);
+                            break;
+                    }
+
+                    ScrollSpeed = 0;
+                }
+
+            }
 
         }
+        else
+        {
+            playerUI.ModeNextText.gameObject.SetActive(false);
+            playerUI.ModePreviousText.gameObject.SetActive(false);
+            playerUI.ModeText.color = Color.white;
+        }
     }
+
+    int prevMode;
+    int nextMode;
+       
     private void Update()
     {
         teleportValue = inputActionAsset.actionMaps[2].actions[9].ReadValue<float>();// 왼손콘솔 X버튼값 받아오기 누르고있으면 1, 아니면 0
@@ -133,9 +192,28 @@ public class ActionManager : MonoBehaviour
         if (rightThumbValue.y > 0.5) // 오른손 조이스틱이 위쪽으로 밀려있는 상태에서
         {
             isRightThumbUp = true;
+            // 이전 이후 모드 표시
+            playerUI.ModeUpText.gameObject.SetActive(true);
+            playerUI.ModeDownText.gameObject.SetActive(true);
+            playerUI.ModeText.color = Color.green;
+           nextMode = (int)modeSelect + 1;
+            prevMode = (int)modeSelect -1;
+            if ((int)nextMode > 3)
+            {
+                nextMode = 0;
+            }
+            if ((int)prevMode < 0)
+            {
+                prevMode = 3;
+            }
+            playerUI.ModeUpText.text = ((ModeSelect)nextMode).ToString();
+            playerUI.ModeDownText.text = ((ModeSelect)prevMode).ToString();
+            //
         }
         else if (rightThumbValue.y <= 0.5 && isRightThumbUp == true)// 다시 제자리로 돌아오면
         {
+            playerUI.ModeUpText.gameObject.SetActive(false);
+            playerUI.ModeDownText.gameObject.SetActive(false);
             modeSelect++;
             if((int)modeSelect >3)
             {
@@ -151,14 +229,35 @@ public class ActionManager : MonoBehaviour
                 player.equipedWeapon.SetActive(false);
             }
             playerUI.ModeText.text = modeSelect.ToString();
+            playerUI.ModeText.color = Color.white;
         }
 
-        if (rightThumbValue.y < -0.5) // 오른손 조이스틱이 위쪽으로 밀려있는 상태에서
+        if (rightThumbValue.y < -0.5) // 오른손 조이스틱이 아래로으로 밀려있는 상태에서
         {
             isRightThumbDown = true;
+           
+            // 이전 이후 모드 표시
+            playerUI.ModeUpText.gameObject.SetActive(true);
+            playerUI.ModeDownText.gameObject.SetActive(true);
+            nextMode = (int)modeSelect + 1;
+            prevMode = (int)modeSelect - 1;
+            if ((int)nextMode > 3)
+            {
+                nextMode = 0;
+            }
+            if ((int)prevMode < 0)
+            {
+                prevMode = 3;
+            }
+            playerUI.ModeUpText.text = ((ModeSelect)nextMode).ToString();
+            playerUI.ModeDownText.text = ((ModeSelect)prevMode).ToString();
+            playerUI.ModeText.color = Color.green;
+            //
         }
         else if (rightThumbValue.y >= -0.5 && isRightThumbDown == true)// 다시 제자리로 돌아오면
         {
+            playerUI.ModeUpText.gameObject.SetActive(false);
+            playerUI.ModeDownText.gameObject.SetActive(false);
             modeSelect--;
             if ((int)modeSelect < 0)
             {
@@ -173,6 +272,7 @@ public class ActionManager : MonoBehaviour
                 player.equipedWeapon.SetActive(false);
             }
             playerUI.ModeText.text = modeSelect.ToString();
+            playerUI.ModeText.color = Color.white;
         }
 
     
@@ -192,26 +292,7 @@ public class ActionManager : MonoBehaviour
             palBall = palBallGo.GetComponent<Pal_Ball>();
             palBall.ballState = Pal_Ball.BallState.Summon;
         }
-        //if (rightThumbValue.y>0.5) // 오른손 조이스틱이 위쪽으로 밀려있는 상태에서
-        //{
-        //    isRightThumb = true;
-        //}
-        //else if(rightThumbValue.y<=0.5 && isRightThumb == true)// 다시 제자리로 돌아오면
-        //{
-        //    palBall = palBallGo.GetComponent<Pal_Ball>();
-        //    if (palBall.ballState == Pal_Ball.BallState.Catch)// 팔볼의 상태가 바뀜
-        //    {
-        //        palBall.ballState = Pal_Ball.BallState.Summon;
-        //        playerUI.BallModeText.text = "Summon";
-        //    }
-        //    else
-        //    {
-        //        palBall.ballState = Pal_Ball.BallState.Catch;
-        //        playerUI.BallModeText.text = "Catch";
-        //    }
-
-        //    isRightThumb = false;
-        //}
+      
         #endregion
 
 
