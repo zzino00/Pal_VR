@@ -156,6 +156,7 @@ MonoBehaviour:
   rayInteractor: {fileID: 7192188287708244076}
   teleportProvider: {fileID: 3633622678860301727}
   actionManager: {fileID: 5250767947122394744}
+  actionBasedContinuousMoveProvider: {fileID: 0}
 --- !u!114 &3932521159158601054
 MonoBehaviour:
   m_ObjectHideFlags: 0

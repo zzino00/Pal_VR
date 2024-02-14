@@ -11,13 +11,13 @@ public class TeleportationManager : MonoBehaviour
     [SerializeField] XRRayInteractor rayInteractor;
     [SerializeField] TeleportationProvider teleportProvider;
     [SerializeField] ActionManager actionManager;
+    [SerializeField] ActionBasedContinuousMoveProvider actionBasedContinuousMoveProvider;
     private InputAction _thumstick;
     private bool _isActive;
 
     private void Start()
     {
         rayInteractor.enableARRaycasting = false;
-
         var activate = inputActionAsset.actionMaps[3].actions[1];//InputAction들을 변수로 저장해서
         activate.Enable();// 사용할수 있게 설정
         activate.performed += OnTeleportActivate;// 실행됐을때 이벤트 실행
@@ -46,8 +46,11 @@ public class TeleportationManager : MonoBehaviour
         if(!_isActive)
          return;
 
-        if (_thumstick.triggered)// 누르고있는 중에는 이동못하게
+
+        if (_thumstick.IsPressed())// 누르고있는 중에는 이동못하게
             return;
+
+      
 
      if(! rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))// 텔레포트할려고 레이케스트 했는데 어디에도 부딪히지 않았을때
         {

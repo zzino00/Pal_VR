@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.InputSystem;
@@ -7,14 +8,12 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class ActionManager : MonoBehaviour
 {
-    [SerializeField] InputActionAsset inputActionAsset;
-    [SerializeField] ActionBasedContinuousMoveProvider moveProvider;
-    [SerializeField] XRRayInteractor rayInteractor;
-    [SerializeField] XRInteractorLineVisual lineVisual;
-    [SerializeField] XRBaseController rBaseController;
-    bool isTeleportMode;
-    float teleportValue;
-    float summonButtonValue;
+    [SerializeField] InputActionAsset inputActionAsset;// InputAction을 받아오기위한 클래스
+    [SerializeField] ActionBasedContinuousMoveProvider moveProvider;// 걷는 모드 관련 클래스
+    [SerializeField] XRRayInteractor rayInteractor;// 레이 인디게이터 관련 클래스
+    [SerializeField] XRInteractorLineVisual lineVisual;// 레이를 어떻게 화면에 표시할지 관련 클래스
+    [SerializeField] XRBaseController rBaseController;// 오른손 콘솔의 회전값을 받아오기위한 클래스
+    bool isTeleportMode; // 텔레포트 모드
     public Player player;
     public GameObject palBallGo;
     public PlayerUI playerUI;
@@ -34,34 +33,59 @@ public class ActionManager : MonoBehaviour
         Inven
     }
 
+    InputAction teleportModeChange;// teleport모드버튼 입력값받는 변수
+    InputAction palBallSpawn;//팔볼소환입력값 받는 변수
+    bool isTeleportModeSelectActive; // 한번만 함수가 실행되게 하는 변수
+    bool isPalBallSpawnActive; // 한번만 함수가 실행되게 하는 변수
     public MoveMode moveMode;
     private void Start()
     {
+        isTeleportModeSelectActive = false;
+        isPalBallSpawnActive = false;
         isTeleportMode = true;
         moveMode = MoveMode.Teleport;//이동모드가 기본값
+        teleportModeChange = inputActionAsset.actionMaps[2].actions[9];
+        palBallSpawn = inputActionAsset.actionMaps[5].actions[9];
+        teleportModeChange.performed += TeleportModeSelect;
+         palBallSpawn.performed += PalBallSpawn;
     }
-    bool isTeleportPressed;
-    bool isSummonPressed;
-    bool isHoldingBall;
+
+    private void TeleportModeSelect(InputAction.CallbackContext context)
+    {
+        isTeleportModeSelectActive = true;
+        isTeleportMode = !isTeleportMode;
+     
+    }
+
+    private void PalBallSpawn(InputAction.CallbackContext context)
+    {
+        isPalBallSpawnActive = true;
+        isHoldingBall = !isHoldingBall;
+
+    }
+
+    bool isHoldingBall; // 팰볼이 소환된 상태처리를 위한 변수
     Vector2  rightThumbValue ;
     Vector3 rightHandPos;
   
-    float TriggerValue;
-    float rightHandRotationZ;
+    float TriggerValue;// 트리거가 당겨지고 있는지
+    float rightHandRotationZ;// 리스트 넘길때 쓰이는 오른손컨트롤러z축 회전값
 
-    int palListScrollSpeedCount = 100;
-    int ScrollSpeed;
-    int palIndex;
-    bool isRightThumbUp;
-    bool isRightThumbDown;
-    bool isScrollRight;
-    public bool isScroll;
+    int palListScrollSpeedCount = 100;// 리스트 넘어가는 속도 
+    int ScrollSpeed;// 리스트 넘어가는 속도 조절을 위한 카운트
+  
+    bool isRightThumbUp;// 오른손 조이스틱 윗방향 입력값
+    bool isRightThumbDown;// 오른손 조이스틱 아랫방향 입력값
+    bool isScrollRight;// 리스트를 오른쪽으로 넘길지 왼쪽으로 넘길지 정한는 변수
+    public bool isScroll;// 리스트에서 다음 항목으로 넘길지 말지를 정하는 변수
 
-    List<GameObject> TargetList = new List<GameObject>();
+    List<GameObject> TargetList = new List<GameObject>();// 상황에따라 몬스터나 무기리스트로 사용
+
+
     public void ScrollList(float TriggerValue)
     {
-      
-        switch (modeSelect)
+      //ToDo: 가능하면 코드를 깔끔하게 수정
+        switch (modeSelect)// 모드에따라 타깃리스트를 설정
         {
             case ModeSelect.Weapon:
                 TargetList = player.myWeaponList;
@@ -73,13 +97,12 @@ public class ActionManager : MonoBehaviour
                 break;
         }
 
-       
-       
         if (TriggerValue > 0.5 && TargetList.Count != 0)// 트리거가 당겨져있는 상태에서
         {
             isScroll = false;
-            switch (modeSelect)
+            switch (modeSelect)// 모드에따라 지정된 함수를 실행
             {
+                //0번 인덱스의 무기,팔 소환
                 case ModeSelect.Weapon:
                     player.ChooseWeapon(isScrollRight);
 
@@ -89,11 +112,12 @@ public class ActionManager : MonoBehaviour
 
                     break;
             }
-
+            //UI에 표시
             playerUI.ModeNextText.gameObject.SetActive(true);
             playerUI.ModePreviousText.gameObject.SetActive(true);
             playerUI.ModeText.color = Color.green;
 
+            // 리스트 항목 우로 넘기기
             if (rightHandRotationZ > 10 && rightHandRotationZ < 160)// 오른손 콘솔이 오른쪽으로 일정이상 기울어지면
             {
                 isScroll = true;
@@ -112,13 +136,11 @@ public class ActionManager : MonoBehaviour
                             player.ChoosePal(isScrollRight);
                             break;
                     }
-
                     ScrollSpeed = 0;
                 }
-
             }
-
-            if (rightHandRotationZ <350 && rightHandRotationZ >160)// 오른손 콘솔이 오른쪽으로 일정이상 기울어지면
+            // 리스트 항목 좌로 넘기기
+            if (rightHandRotationZ <350 && rightHandRotationZ >160)// 오른손 콘솔이 왼쪽으로 일정이상 기울어지면
             {
                 isScroll = true;
                 isScrollRight = false;
@@ -136,56 +158,32 @@ public class ActionManager : MonoBehaviour
                             player.ChoosePal(isScrollRight);
                             break;
                     }
-
                     ScrollSpeed = 0;
                 }
-
             }
-
         }
-        else
+        else// 트리거가 놓아졌을때
         {
             playerUI.ModeNextText.gameObject.SetActive(false);
             playerUI.ModePreviousText.gameObject.SetActive(false);
             playerUI.ModeText.color = Color.white;
         }
-    }
+    }// 리스트에서 선택후 소환하는 함수
 
     int prevMode;
     int nextMode;
-       
+
+
+
     private void Update()
     {
-        teleportValue = inputActionAsset.actionMaps[2].actions[9].ReadValue<float>();// 왼손콘솔 X버튼값 받아오기 누르고있으면 1, 아니면 0
-        summonButtonValue = inputActionAsset.actionMaps[5].actions[9].ReadValue<float>();// 오른손 priamrybutton값
         rightThumbValue =inputActionAsset.actionMaps[5].actions[10].ReadValue<Vector2>();// 오른손 조이스틱 값
         TriggerValue = inputActionAsset.actionMaps[5].actions[11].ReadValue<float>();//오른손 트리거 값
         rightHandRotationZ = inputActionAsset.actionMaps[5].actions[12].ReadValue<Quaternion>().eulerAngles.z;// 오른손 z축 회전값
+     
 
-
-        #region SelectMonsterTo Spawn
+        //무기및 팰 선택후 소환
         ScrollList(TriggerValue);
-
-        //if (TriggerValue >0.5&&player.monsterGoList.Count !=0)// 트리거가 당겨져있는 상태에서
-        //{
-        //  if( rightHandRotationZ > 10 && rightHandRotationZ <160)// 오른손 콘솔이 오른쪽으로 일정이상 기울어지면
-        //    {
-        //        ScrollSpeed++;
-        //        if(ScrollSpeed>=palListScrollSpeedCount)// 리스트가 넘어가는 속도조절
-        //        {
-
-        //            rBaseController.SendHapticImpulse(0.7f, 0.3f);// 진동주기
-        //            player.ChoosePal();// 리스트 넘기는 함수
-        //            ScrollSpeed = 0;
-        //        }
-
-        //    }
-
-
-        //}
-        #endregion
-
-
 
         #region SelectMode // 모드 선택
 
@@ -193,11 +191,13 @@ public class ActionManager : MonoBehaviour
         {
             isRightThumbUp = true;
             // 이전 이후 모드 표시
-            playerUI.ModeUpText.gameObject.SetActive(true);
-            playerUI.ModeDownText.gameObject.SetActive(true);
-            playerUI.ModeText.color = Color.green;
-           nextMode = (int)modeSelect + 1;
+            playerUI.ModeUpText.gameObject.SetActive(true);// 이후모드 텍스트 보여주기
+            playerUI.ModeDownText.gameObject.SetActive(true);// 이전모드 텍스트 보여주기
+            playerUI.ModeText.color = Color.green;// 현재 사용중인 모드색 초록색으로 변경
+            nextMode = (int)modeSelect + 1;
             prevMode = (int)modeSelect -1;
+
+            //리스트밖으로 벗어나는 인덱스 처리
             if ((int)nextMode > 3)
             {
                 nextMode = 0;
@@ -212,9 +212,9 @@ public class ActionManager : MonoBehaviour
         }
         else if (rightThumbValue.y <= 0.5 && isRightThumbUp == true)// 다시 제자리로 돌아오면
         {
-            playerUI.ModeUpText.gameObject.SetActive(false);
-            playerUI.ModeDownText.gameObject.SetActive(false);
-            modeSelect++;
+            playerUI.ModeUpText.gameObject.SetActive(false);// 이전모드 텍스트 비활성화
+            playerUI.ModeDownText.gameObject.SetActive(false); //이후모드 텍스트 비활성화
+            modeSelect++;// 모드 하나 넘기기
             if((int)modeSelect >3)
             {
                 modeSelect = 0;
@@ -224,7 +224,7 @@ public class ActionManager : MonoBehaviour
             player.Index = 0;
             isRightThumbUp = false;
 
-            if (modeSelect != ModeSelect.Weapon)
+            if (modeSelect != ModeSelect.Weapon)// 모드가 weapon이 아니면 착용중인 무기 비활성화
             {
                 player.equipedWeapon.SetActive(false);
             }
@@ -235,8 +235,6 @@ public class ActionManager : MonoBehaviour
         if (rightThumbValue.y < -0.5) // 오른손 조이스틱이 아래로으로 밀려있는 상태에서
         {
             isRightThumbDown = true;
-           
-            // 이전 이후 모드 표시
             playerUI.ModeUpText.gameObject.SetActive(true);
             playerUI.ModeDownText.gameObject.SetActive(true);
             nextMode = (int)modeSelect + 1;
@@ -252,7 +250,6 @@ public class ActionManager : MonoBehaviour
             playerUI.ModeUpText.text = ((ModeSelect)nextMode).ToString();
             playerUI.ModeDownText.text = ((ModeSelect)prevMode).ToString();
             playerUI.ModeText.color = Color.green;
-            //
         }
         else if (rightThumbValue.y >= -0.5 && isRightThumbDown == true)// 다시 제자리로 돌아오면
         {
@@ -275,12 +272,12 @@ public class ActionManager : MonoBehaviour
             playerUI.ModeText.color = Color.white;
         }
 
-    
+
         #endregion
 
-        #region SelectPalBallMode
+        #region SelectPalBallMode  //모드에 따라 팔볼의 포획,소환 여부 선택
 
-        if(modeSelect == ModeSelect.Catch)
+        if (modeSelect == ModeSelect.Catch)
         {
             palBall = palBallGo.GetComponent<Pal_Ball>();
             palBall.ballState = Pal_Ball.BallState.Catch;
@@ -296,63 +293,59 @@ public class ActionManager : MonoBehaviour
         #endregion
 
 
-        #region Spawing&Releasing PalBall
+        //ToDo: 따로 키를 눌러서 소환하기보다는 모드가 선택됐을때 자동으로 손에 소환되고 던진후에도 자동으로 손에 스폰되게하는게 더 자연스러울거 같다.
+        #region Spawing&Releasing PalBall // 팔볼을 손에 소환
 
         if(modeSelect == ModeSelect.Catch || modeSelect == ModeSelect.Pal)
         {
-            if (summonButtonValue == 1 && isSummonPressed == false)// 버튼을 누르고 있는 값이 float값으로 들어오기
-                                                                   // 때문에 업데이트에서 1번만 실행되게 하려면 이러한 방법을 써야한다.
-            {
-                isHoldingBall = !isHoldingBall; // 공을 소환한 상태
-                isSummonPressed = true;
-            }
-            if (summonButtonValue == 0)
-            {
-                isSummonPressed = false;
-            }
+           
 
             if (isHoldingBall)
             {
                 rightHandPos = this.transform.position + inputActionAsset.actionMaps[4].actions[0].ReadValue<Vector3>();// 오른손 컨트롤러 값 받아오기
                 palBallGo.transform.localPosition = rightHandPos;
-                player.UnsummonPal();// 공을 손으로 가져올때는 몬스터 역소환 ToDo: 내 몬스터는 소환한 상태로 포획용 볼을 꺼낼수도 있으니까 수정해야할수도
-                palBallGo.SetActive(true);
+
+                if (isPalBallSpawnActive)
+                {
+                    player.UnsummonPal();// 공을 손으로 가져올때는 몬스터 역소환 ToDo: 내 몬스터는 소환한 상태로 포획용 볼을 꺼낼수도 있으니까 수정해야할수도
+                    palBallGo.SetActive(true);
+                    isPalBallSpawnActive = false;
+                }
+
+
             }
+           
         }
-        
+
 
         #endregion
 
 
-        #region TeleportModeChange
+        #region TeleportModeChange // 이동모드 선택
 
-        if (teleportValue == 1 && isTeleportPressed == false) // 버튼이 눌려진 순간만
+        if (isTeleportModeSelectActive == true)// 한번만 실행되게 
         {
-            isTeleportMode = !isTeleportMode;// 모드바꿔주기
-            isTeleportPressed = true;
+            if (isTeleportMode == true)
+            {
+                moveMode = MoveMode.Teleport;
+                playerUI.moveModeText.text = "Teleport";
+                moveProvider.enabled = false;// 텔레포트모드일때는 Walk못하게
+                lineVisual.enabled = true;
+                lineVisual.reticle.SetActive(true);
+                Debug.Log("TeleortMode");
+            }
+            else
+            {
+                moveMode = MoveMode.Walk;
+                playerUI.moveModeText.text = "Walk";
+                rayInteractor.enabled = false;// Walk모드일때는 ray가 안보이게
+                moveProvider.enabled = true;
+                lineVisual.reticle.SetActive(false);// telport모드에서 walk모드로 번환시 raticle이 화면에 남아서 비활성화
+                lineVisual.enabled = false;
+            }
         }
 
-        if (teleportValue == 0)// 버튼을 안누르고 있으면 isPressed는 false
-        {
-            isTeleportPressed = false;
-        }
-
-        if (isTeleportMode == true)
-        {
-            moveMode = MoveMode.Teleport;
-            playerUI.moveModeText.text = "Teleport";
-            moveProvider.enabled = false;// 텔레포트모드일때는 Walk못하게
-            lineVisual.reticle.SetActive(true);
-        }
-        else
-        {
-            moveMode = MoveMode.Walk;
-            playerUI.moveModeText.text = "Walk";
-            rayInteractor.enabled = false;// Walk모드일때는 ray가 안보이게
-            moveProvider.enabled = true;
-            lineVisual.reticle.SetActive(false);// telport모드에서 walk모드로 번환시 raticle이 화면에 남아서 비활성화
-        }
-
+        isTeleportModeSelectActive = false;
         #endregion
     }
 }
