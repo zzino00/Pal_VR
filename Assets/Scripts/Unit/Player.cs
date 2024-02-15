@@ -17,7 +17,6 @@ public class Player : MonoBehaviour
     public PlayerUI playerUI;
     Monster monster;
     Weapon weapon;
-    bool isPalChoosed= false;
     public GameObject equipedWeapon;
     public GameObject RightHand;
     public GameObject LeftHand;
@@ -56,12 +55,6 @@ public class Player : MonoBehaviour
         int prevIndex = Index - 1;
         int nextIndex = Index + 1;
 
-        Debug.Log("ShowWeaponList");
-
-        for(int i=0; i<myWeaponList.Count; i++)
-        {
-            Debug.Log(myWeaponList[i].GetComponent<Weapon>().myStat.name);
-        }
         if (prevIndex < 0)
         {
             prevIndex = myWeaponList.Count - 1;
@@ -161,7 +154,7 @@ public class Player : MonoBehaviour
         monster.palState = Monster.PalState.Catched;// 몬스터를 포획상태로 설정
         playerUI.ModeText.text = monster.myStat.name;// ui에 이름표시
         ShowPalList();
-        isPalChoosed = true;
+       
     }
 
     public void UnsummonPal()

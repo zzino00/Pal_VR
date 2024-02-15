@@ -10,7 +10,8 @@ public class ActionManager : MonoBehaviour
 {
     [SerializeField] InputActionAsset inputActionAsset;// InputAction을 받아오기위한 클래스
     [SerializeField] ActionBasedContinuousMoveProvider moveProvider;// 걷는 모드 관련 클래스
-    [SerializeField] XRRayInteractor rayInteractor;// 레이 인디게이터 관련 클래스
+    [SerializeField] XRRayInteractor rayInteractorL;// 레이 인디게이터 관련 클래스
+    [SerializeField] XRRayInteractor rayInteractorR;// 레이 인디게이터 관련 클래스
     [SerializeField] XRInteractorLineVisual lineVisual;// 레이를 어떻게 화면에 표시할지 관련 클래스
     [SerializeField] XRBaseController rBaseController;// 오른손 콘솔의 회전값을 받아오기위한 클래스
     bool isTeleportMode; // 텔레포트 모드
@@ -131,6 +132,10 @@ public class ActionManager : MonoBehaviour
                     {
                         case ModeSelect.Weapon:
                             player.ChooseWeapon(isScrollRight);
+                           
+                               
+                            
+                           
                             break;
                         case ModeSelect.Pal:
                             player.ChoosePal(isScrollRight);
@@ -220,13 +225,18 @@ public class ActionManager : MonoBehaviour
                 modeSelect = 0;
             }
 
-            Debug.Log(modeSelect);
+          
             player.Index = 0;
             isRightThumbUp = false;
 
             if (modeSelect != ModeSelect.Weapon)// 모드가 weapon이 아니면 착용중인 무기 비활성화
             {
                 player.equipedWeapon.SetActive(false);
+                rayInteractorR.enabled = true;
+            }
+            else
+            {
+                rayInteractorR.enabled = false;
             }
             playerUI.ModeText.text = modeSelect.ToString();
             playerUI.ModeText.color = Color.white;
@@ -267,6 +277,12 @@ public class ActionManager : MonoBehaviour
             if (modeSelect != ModeSelect.Weapon)
             {
                 player.equipedWeapon.SetActive(false);
+                rayInteractorR.enabled = true;
+
+            }
+            else
+            {
+                rayInteractorR.enabled = false;
             }
             playerUI.ModeText.text = modeSelect.ToString();
             playerUI.ModeText.color = Color.white;
@@ -338,7 +354,7 @@ public class ActionManager : MonoBehaviour
             {
                 moveMode = MoveMode.Walk;
                 playerUI.moveModeText.text = "Walk";
-                rayInteractor.enabled = false;// Walk모드일때는 ray가 안보이게
+                rayInteractorL.enabled = false;// Walk모드일때는 ray가 안보이게
                 moveProvider.enabled = true;
                 lineVisual.reticle.SetActive(false);// telport모드에서 walk모드로 번환시 raticle이 화면에 남아서 비활성화
                 lineVisual.enabled = false;

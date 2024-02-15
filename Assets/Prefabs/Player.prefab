@@ -1774,7 +1774,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputActionAsset: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   moveProvider: {fileID: 3932521159158601054}
-  rayInteractor: {fileID: 7192188287708244076}
+  rayInteractorL: {fileID: 0}
+  rayInteractorR: {fileID: 0}
   lineVisual: {fileID: 6392269455823576511}
   rBaseController: {fileID: 0}
   player: {fileID: 4864121551207436397}

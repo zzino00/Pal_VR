@@ -29,6 +29,7 @@ public class Weapon : MonoBehaviour
         if (weaponState == WeaponState.Unowned && other.gameObject.tag == "RightHand")
         {
             player.myWeaponList.Add(gameObject);// 플레이어 weapon리스트에 추가
+            player.equipedWeapon = player.myWeaponList[0];
             gameObject.SetActive(false);
         }
     }

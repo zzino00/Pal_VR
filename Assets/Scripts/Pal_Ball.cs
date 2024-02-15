@@ -30,6 +30,7 @@ public class Pal_Ball : MonoBehaviour
             if(rand<= collision.gameObject.GetComponent<Monster>().catchProb)
             {
                 player.monsterGoList.Add(collision.gameObject);
+                player.summonedPal = player.monsterGoList[0];
                 gameObject.SetActive(false);
                 collision.gameObject.SetActive(false);
             }
