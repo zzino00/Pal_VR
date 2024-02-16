@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -15,6 +16,8 @@ public class ActionManager : MonoBehaviour
     [SerializeField] XRInteractorLineVisual lineVisual;// 레이를 어떻게 화면에 표시할지 관련 클래스
     [SerializeField] XRBaseController rBaseController;// 오른손 콘솔의 회전값을 받아오기위한 클래스
     bool isTeleportMode; // 텔레포트 모드
+
+
     public Player player;
     public GameObject palBallGo;
     public PlayerUI playerUI;

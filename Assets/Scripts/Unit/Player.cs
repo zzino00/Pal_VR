@@ -1,15 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading;
 using UnityEngine;
 
+
+[Serializable]
+
 public class Player : MonoBehaviour
 {
-
-  //  public List<int> myPalList = new List<int>();// ToDo: 몬스터아이디를 저장하는 리스트를 만들기는 했는데 쓰다보니 그냥 게임오브젝트에서 찾아서 쓰는경우가 더 많아서 뺄수도 있음
     public List<GameObject> myWeaponList = new List<GameObject>();// 무기 오브젝트 저장 리스트
     public List<GameObject> monsterGoList = new List<GameObject>();// 몬스터 오브젝트를 저장하는 리스트
+                        
     public GameObject palBall; // 위치를 받아오기위한 팔볼 오브젝트
     public Transform summonTrs; // 소환할 위치
     public GameObject summonedPal;// 소환된 팔오브젝트
@@ -20,7 +23,9 @@ public class Player : MonoBehaviour
     public GameObject equipedWeapon;
     public GameObject RightHand;
     public GameObject LeftHand;
- 
+
+
+  
     public void SummonPal()
     {
         if (monsterGoList.Count != 0 )
@@ -60,7 +65,7 @@ public class Player : MonoBehaviour
             prevIndex = myWeaponList.Count - 1;
         }
 
-        if(nextIndex>=myWeaponList.Count)
+        if(nextIndex>= myWeaponList.Count)
         {
             nextIndex %= myWeaponList.Count;
         }

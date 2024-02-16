@@ -37,7 +37,7 @@ public class Arrow : MonoBehaviour
     }
     private void Release(float value)
     {
-        BowInteraction.PullActionReleased -= Release;
+        BowInteraction.PullActionReleased -= Release;// 화살이 있는데도 계속 실행되는것을 막기위해서 구독취소
         gameObject.transform.parent = null;
         isInAir = true;
         SetPhysics(true);
@@ -45,7 +45,6 @@ public class Arrow : MonoBehaviour
         Vector3 force = transform.forward* value*speed;
         rigidBody.AddForce(force,ForceMode.Impulse);
         StartCoroutine(RotateWithVelocity());
-        lastPosition = tip.position;
     }
 
     private IEnumerator RotateWithVelocity()
@@ -62,16 +61,20 @@ public class Arrow : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isInAir)
-        {
-            CheckCollision();
-            lastPosition = tip.position;
-        }
+     
     }
 
-    private void CheckCollision()
-    {
+ 
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag != "Weapon" &&  collision.gameObject.tag != "Player" && collision.gameObject.tag != "RightHand")
+        {
+           transform.parent = collision.transform;
+            Debug.Log(collision.gameObject);
+            Stop();
+            Destroy(this.gameObject, 2.0f);
+        }
     }
     void Start()
     {
