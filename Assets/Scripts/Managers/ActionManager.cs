@@ -16,11 +16,13 @@ public class ActionManager : MonoBehaviour
     [SerializeField] XRInteractorLineVisual lineVisual;// 레이를 어떻게 화면에 표시할지 관련 클래스
     [SerializeField] XRBaseController rBaseController;// 오른손 콘솔의 회전값을 받아오기위한 클래스
     bool isTeleportMode; // 텔레포트 모드
-
-
+    bool isHoldingBall; // 팰볼이 소환된 상태처리를 위한 변수
+    bool isShowingMenu;
     public Player player;
     public GameObject palBallGo;
     public PlayerUI playerUI;
+    public GameObject MenuCanvas;
+    public GameObject ModeMenuCanvas;
     Pal_Ball palBall;
     ModeSelect modeSelect = 0;
     public enum MoveMode// 이동모드
@@ -39,19 +41,36 @@ public class ActionManager : MonoBehaviour
 
     InputAction teleportModeChange;// teleport모드버튼 입력값받는 변수
     InputAction palBallSpawn;//팔볼소환입력값 받는 변수
+    InputAction showMenu;// 메뉴창 열기
     bool isTeleportModeSelectActive; // 한번만 함수가 실행되게 하는 변수
     bool isPalBallSpawnActive; // 한번만 함수가 실행되게 하는 변수
+    bool isShowMenuActive;
     public MoveMode moveMode;
     private void Start()
     {
         isTeleportModeSelectActive = false;
         isPalBallSpawnActive = false;
+        isShowMenuActive = false;
         isTeleportMode = true;
-        moveMode = MoveMode.Teleport;//이동모드가 기본값
+    
         teleportModeChange = inputActionAsset.actionMaps[2].actions[9];
         palBallSpawn = inputActionAsset.actionMaps[5].actions[9];
+        showMenu = inputActionAsset.actionMaps[5].actions[13];
         teleportModeChange.performed += TeleportModeSelect;
-         palBallSpawn.performed += PalBallSpawn;
+        palBallSpawn.performed += PalBallSpawn;
+        showMenu.performed += ShowMenu;
+
+        modeSelect = ModeSelect.Catch;
+        playerUI.ModeDownText.gameObject.SetActive(false);
+        playerUI.ModeUpText.gameObject.SetActive(false);
+        playerUI.ModeText.text = modeSelect.ToString();
+      
+
+        moveMode = MoveMode.Teleport;//이동모드가 기본값
+        playerUI.moveModeText.text = "Teleport";
+        moveProvider.enabled = false;// 텔레포트모드일때는 Walk못하게
+        lineVisual.enabled = true;
+        lineVisual.reticle.SetActive(true);
     }
 
     private void TeleportModeSelect(InputAction.CallbackContext context)
@@ -68,7 +87,15 @@ public class ActionManager : MonoBehaviour
 
     }
 
-    bool isHoldingBall; // 팰볼이 소환된 상태처리를 위한 변수
+    Vector3 MenuPos;
+    private void ShowMenu(InputAction.CallbackContext context)
+    {
+        MenuPos = this.transform.position + inputActionAsset.actionMaps[4].actions[0].ReadValue<Vector3>();// 오른손 컨트롤러 값 받아오기
+        isShowMenuActive = true;
+        isShowingMenu = !isShowingMenu;
+    }
+
+   
     Vector2  rightThumbValue ;
     Vector3 rightHandPos;
   
@@ -187,8 +214,8 @@ public class ActionManager : MonoBehaviour
     {
         rightThumbValue =inputActionAsset.actionMaps[5].actions[10].ReadValue<Vector2>();// 오른손 조이스틱 값
         TriggerValue = inputActionAsset.actionMaps[5].actions[11].ReadValue<float>();//오른손 트리거 값
-        rightHandRotationZ = inputActionAsset.actionMaps[5].actions[12].ReadValue<Quaternion>().eulerAngles.z;// 오른손 z축 회전값
-     
+        rightHandRotationZ = inputActionAsset.actionMaps[4].actions[1].ReadValue<Quaternion>().eulerAngles.z;// 오른손 z축 회전값
+      
 
         //무기및 팰 선택후 소환
         ScrollList(TriggerValue);
@@ -308,20 +335,20 @@ public class ActionManager : MonoBehaviour
             palBall = palBallGo.GetComponent<Pal_Ball>();
             palBall.ballState = Pal_Ball.BallState.Summon;
         }
-      
+
         #endregion
 
 
         //ToDo: 따로 키를 눌러서 소환하기보다는 모드가 선택됐을때 자동으로 손에 소환되고 던진후에도 자동으로 손에 스폰되게하는게 더 자연스러울거 같다.
         #region Spawing&Releasing PalBall // 팔볼을 손에 소환
-
-        if(modeSelect == ModeSelect.Catch || modeSelect == ModeSelect.Pal)
+        rightHandPos = this.transform.position + inputActionAsset.actionMaps[4].actions[0].ReadValue<Vector3>();// 오른손 컨트롤러 값 받아오기
+        if (modeSelect == ModeSelect.Catch || modeSelect == ModeSelect.Pal)
         {
            
 
             if (isHoldingBall)
             {
-                rightHandPos = this.transform.position + inputActionAsset.actionMaps[4].actions[0].ReadValue<Vector3>();// 오른손 컨트롤러 값 받아오기
+               
                 palBallGo.transform.localPosition = rightHandPos;
 
                 if (isPalBallSpawnActive)
@@ -366,5 +393,22 @@ public class ActionManager : MonoBehaviour
 
         isTeleportModeSelectActive = false;
         #endregion
+
+
+        if(isShowMenuActive == true)
+        {
+            if(isShowingMenu)
+            {
+                MenuCanvas.transform.position = MenuPos;
+                MenuCanvas.SetActive(true);
+                ModeMenuCanvas.SetActive(false);
+                
+            }
+            else
+            {
+                MenuCanvas.SetActive(false);
+                ModeMenuCanvas.SetActive(true);
+            }
+        }
     }
 }

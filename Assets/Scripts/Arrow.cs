@@ -18,14 +18,12 @@ public class Arrow : MonoBehaviour
 
         Stop();
     }
-
     private void Stop()
     {
         isInAir = false;
         SetPhysics(false);
     }
-
-    private void SetPhysics(bool usePhyics)
+    private void SetPhysics(bool usePhyics)// true이면 중력을 적용하고 isKinematic을 꺼줌
     {
         rigidBody.useGravity = usePhyics;
         rigidBody.isKinematic = !usePhyics;
@@ -33,7 +31,7 @@ public class Arrow : MonoBehaviour
 
     private void OnDestroy()
     {
-        BowInteraction.PullActionReleased -= Release;
+        BowInteraction.PullActionReleased -= Release;// 파괴될때 액션 구독취소
     }
     private void Release(float value)
     {
@@ -42,12 +40,12 @@ public class Arrow : MonoBehaviour
         isInAir = true;
         SetPhysics(true);
 
-        Vector3 force = transform.forward* value*speed;
+        Vector3 force = transform.forward* value*speed; // 화살이 날라갈때 PullActionRelease 액션에서 받은 PullAmount값 만큼 날라감
         rigidBody.AddForce(force,ForceMode.Impulse);
         StartCoroutine(RotateWithVelocity());
     }
 
-    private IEnumerator RotateWithVelocity()
+    private IEnumerator RotateWithVelocity()// 항상 날라가는 방향으로 화살촉이 향하게 해주는 함수
     {
         yield return new WaitForFixedUpdate();// FixedUpdate가 끝나면 아랫구문 시작
         while(isInAir)
@@ -58,15 +56,7 @@ public class Arrow : MonoBehaviour
         }
 
     }
-
-    private void FixedUpdate()
-    {
-     
-    }
-
- 
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)// 화살이 물체에 꽂히게 해주는 함수
     {
         if(collision.gameObject.tag != "Weapon" &&  collision.gameObject.tag != "Player" && collision.gameObject.tag != "RightHand")
         {

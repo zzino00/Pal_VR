@@ -42,7 +42,7 @@ public class Weapon_Data
 }
 
 [Serializable]
-public class Player_Data
+public class Player_Data // 플레이어가 현재 데이터
 {
     public List<int> playerWeaponDatas = new List<int>();
     public List<int> playerPalDatas = new List<int>();
@@ -60,43 +60,46 @@ public class DataManager : MonoBehaviour
 
 
     [ContextMenu("To Json Data")]// 테스트용 코드 , 컴포넌트 메뉴에 아래함수를 호출하는 명령어가 생김
-    void SavePlayerData()
+   public void SavePlayerData()
     {
-        foreach (GameObject myWeapon in player.myWeaponList)
+        foreach (GameObject myWeapon in player.myWeaponList)// Player.cs에 있는 리스트에서 무기항목들을 가져와서 playerWeaponDatas에 저장
         {
             Weapon playerWeapon = myWeapon.GetComponent<Weapon>();
            playerData.playerWeaponDatas.Add(playerWeapon.myId);
         }
 
-        foreach (GameObject myPal in player.monsterGoList)
+        foreach (GameObject myPal in player.monsterGoList)// Player.cs에 있는 리스트에서 팰항목들을 가져와서 playerPalDatas에 저장
         {
             Monster monster = myPal.GetComponent<Monster>();
             playerData.playerPalDatas.Add(monster.myId);
         }
+        Debug.Log("Saved");
+        string jsonData = JsonUtility.ToJson(playerData,true);//플레이어 데이터를 json형식 string으로 변환
 
-        string jsonData = JsonUtility.ToJson(playerData,true);
-
-        string path = Path.Combine(Application.dataPath, "Resources/Json/Player_Data.json");
-        File.WriteAllText(path, jsonData);
+        string path = Path.Combine(Application.dataPath, "Resources/Json/Player_Data.json");//경로지정
+        File.WriteAllText(path, jsonData);//지정된 경로에 파일 생성
     }
 
     [ContextMenu("Load Json Data")]// 테스트용 코드 , 컴포넌트 메뉴에 아래함수를 호출하는 명령어가 생김
-    void LoadPlayerData()
+    public void LoadPlayerData()
     {
-        TextAsset playerDataText = Resources.Load<TextAsset>("Json/Player_Data");
-        playerData = JsonUtility.FromJson<Player_Data>(playerDataText.text);
-        foreach (int playerWeaponId in playerData.playerWeaponDatas)
+        TextAsset playerDataText = Resources.Load<TextAsset>("Json/Player_Data");// 지정된 경로에서 데이터 찾기
+        playerData = JsonUtility.FromJson<Player_Data>(playerDataText.text);// Json양식에서 읽을수 있게 변환
+        foreach (int playerWeaponId in playerData.playerWeaponDatas)//playerWeaponDatas를 돌면서 
         {
             GameObject newWeapon;
-            newWeapon = Resources.Load($"Prefabs/Weapon/{playerWeaponId.ToString()}") as GameObject;
+            newWeapon = Resources.Load($"Prefabs/Weapon/{playerWeaponId.ToString()}") as GameObject; //리스트안에 있는 무기의 아이디로 프리팹을 찾아서 생성
             if (newWeapon == null)
             {
                 Debug.Log("Load Failed");
             }
             Debug.Log("Sucess");
 
-            player.myWeaponList.Add(newWeapon);
-            Instantiate(newWeapon);
+            GameObject loadedWeaon =Instantiate(newWeapon);
+            player.myWeaponList.Add(loadedWeaon);// 생성된 무기를 플레이어 무기리스트에 추가
+            player.equipedWeapon = player.myWeaponList[0];
+            loadedWeaon.SetActive(false);
+           
         }
 
         foreach (int playerPalId in playerData.playerPalDatas)
@@ -107,9 +110,11 @@ public class DataManager : MonoBehaviour
             {
                 Debug.Log("Load Failed");
             }
-            player.monsterGoList.Add(newPal);
-            Instantiate(newPal);
            
+            GameObject loadedPal =  Instantiate(newPal);
+            player.monsterGoList.Add(loadedPal);
+            player.summonedPal = player.monsterGoList[0];  
+            loadedPal.SetActive(false);
         }
 
       

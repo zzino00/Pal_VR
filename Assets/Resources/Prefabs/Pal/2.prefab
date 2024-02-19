@@ -443,7 +443,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7327343448764925291
 Transform:
   m_ObjectHideFlags: 0
@@ -452,7 +452,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4514733920882269420}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.25, y: 1.11, z: 3.77}
+  m_LocalPosition: {x: 0.05233073, y: 0.65302354, z: -2.3965564}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -545,15 +545,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myId: 2
   myStat:
-    Id: 0
-    name: 
-    level: 0
-    maxHp: 0
-    curHp: 0
-    attackPower: 0
-    defensePower: 0
-    moveSpeed: 0
-  palState: 0
+    Id: 2
+    name: Pal_Cube
+    level: 3
+    maxHp: 200
+    curHp: 200
+    attackPower: 10
+    defensePower: 5
+    moveSpeed: 2
+  palState: 1
   catchProb: 0
   monsterUI: {fileID: 0}
 --- !u!65 &3476633696622069472
