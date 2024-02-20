@@ -1799,6 +1799,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myWeaponList: []
   monsterGoList: []
+  myItemList: []
   palBall: {fileID: 0}
   summonTrs: {fileID: 0}
   summonedPal: {fileID: 0}
@@ -1807,3 +1808,4 @@ MonoBehaviour:
   equipedWeapon: {fileID: 0}
   RightHand: {fileID: 0}
   LeftHand: {fileID: 0}
+  ammo: 0

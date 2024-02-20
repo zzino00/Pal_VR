@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 [Serializable]
@@ -12,6 +13,7 @@ public class Player : MonoBehaviour
 {
     public List<GameObject> myWeaponList = new List<GameObject>();// 무기 오브젝트 저장 리스트
     public List<GameObject> monsterGoList = new List<GameObject>();// 몬스터 오브젝트를 저장하는 리스트
+    public List<GameObject> myItemList = new List<GameObject>();
                         
     public GameObject palBall; // 위치를 받아오기위한 팔볼 오브젝트
     public Transform summonTrs; // 소환할 위치
@@ -23,9 +25,9 @@ public class Player : MonoBehaviour
     public GameObject equipedWeapon;
     public GameObject RightHand;
     public GameObject LeftHand;
+    public int ammo = 10;
 
-
-  
+   
     public void SummonPal()
     {
         if (monsterGoList.Count != 0 )

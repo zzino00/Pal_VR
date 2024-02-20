@@ -24,7 +24,21 @@ public class Monster : MonoBehaviour
         monsterUI.catchProb.text = catchProb.ToString();
         monsterUI.slider.value = myStat.curHp / myStat.maxHp;
     }
-   
+    public void ItemDrop()
+    {
+        int randDropItem = UnityEngine.Random.Range(0, DataManager.instance.item_Go.item_Objects.Count);
+        int randDropNum = UnityEngine.Random.Range(1, 4);
+
+        while(randDropNum-- >0)
+        {
+           GameObject DropItem = Instantiate(DataManager.instance.item_Go.item_Objects[randDropItem], transform.position+new Vector3(0,1,0),transform.rotation);
+            Item item = DropItem.GetComponent<Item>();
+            DataManager.instance.itemDict.TryGetValue(item.myId, out item.myStat);
+
+        }
+     
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         monsterUI.catchProb.text = catchProb.ToString();
@@ -42,6 +56,7 @@ public class Monster : MonoBehaviour
             if (myStat.curHp < 0)
             {
                 myStat.curHp = 0;
+                ItemDrop();
                 this.gameObject.SetActive(false);
             }
 

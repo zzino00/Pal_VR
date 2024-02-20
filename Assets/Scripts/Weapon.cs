@@ -13,12 +13,14 @@ public class Weapon : MonoBehaviour
    public enum WeaponType// ToDo: 무기타입은 어차피 json으로 저장되어있으니까 그냥 원거리 근거리로 나눌것
     {
         Sword,
-        Bow
+        Bow,
+        Ammo
     }
     public enum WeaponState// 소유중인지 필드에 있는지
     {
         Unowned,
         Owned
+       
     }
     private void Start()
     {
@@ -32,10 +34,15 @@ public class Weapon : MonoBehaviour
             player.equipedWeapon = player.myWeaponList[0];
             gameObject.SetActive(false);
         }
+
+        if(weaponState == WeaponState.Unowned && weaponType == WeaponType.Ammo&& other.gameObject.tag == "RightHand")
+        {
+            player.ammo += 10;
+        }
     }
     public void Update()
     {
-        if(weaponState==WeaponState.Owned)// 플레이어 손에 고정
+        if (weaponType != WeaponType.Ammo&&weaponState == WeaponState.Owned)// 플레이어 손에 고정
         {
             gameObject.transform.position = targetHandTrs.position;
         }

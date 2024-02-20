@@ -1,0 +1,24 @@
+{
+  "item_Datas": [
+    {
+      "Id": "1",
+      "name": "Wood",
+      "discription": "Basic material to make stuff"
+    },
+    {
+      "Id": "2",
+      "name": "Stone",
+      "discription": "Basic material to make stuff"
+    },
+    {
+      "Id": "3",
+      "name": "Herb",
+      "discription": "Basic material to make stuff"
+    },
+    {
+      "Id": "4",
+      "name": "string",
+      "discription": "Basic material to make stuff"
+    }
+  ]
+}

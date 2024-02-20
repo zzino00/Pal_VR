@@ -91,6 +91,7 @@ public class ActionManager : MonoBehaviour
     private void ShowMenu(InputAction.CallbackContext context)
     {
         MenuPos = this.transform.position + inputActionAsset.actionMaps[4].actions[0].ReadValue<Vector3>();// 오른손 컨트롤러 값 받아오기
+        MenuCanvas.transform.rotation = inputActionAsset.actionMaps[4].actions[1].ReadValue<Quaternion>();
         isShowMenuActive = true;
         isShowingMenu = !isShowingMenu;
     }
@@ -263,10 +264,19 @@ public class ActionManager : MonoBehaviour
             {
                 player.equipedWeapon.SetActive(false);
                 rayInteractorR.enabled = true;
+                playerUI.moveModeText.gameObject.SetActive(true);
             }
             else
             {
                 rayInteractorR.enabled = false;
+                if (player.equipedWeapon.GetComponent<Weapon>().weaponType == Weapon.WeaponType.Bow)
+                {
+                    playerUI.moveModeText.gameObject.SetActive(false);
+                }
+                else
+                {
+                    playerUI.moveModeText.gameObject.SetActive(true);
+                }
             }
             playerUI.ModeText.text = modeSelect.ToString();
             playerUI.ModeText.color = Color.white;
@@ -308,11 +318,20 @@ public class ActionManager : MonoBehaviour
             {
                 player.equipedWeapon.SetActive(false);
                 rayInteractorR.enabled = true;
+                playerUI.moveModeText.gameObject.SetActive(true);
 
             }
             else
             {
                 rayInteractorR.enabled = false;
+                if (player.equipedWeapon.GetComponent<Weapon>().weaponType == Weapon.WeaponType.Bow)
+                {
+                 playerUI.moveModeText.gameObject.SetActive(false);
+                }
+                else
+                {
+                    playerUI.moveModeText.gameObject.SetActive(true);
+                }
             }
             playerUI.ModeText.text = modeSelect.ToString();
             playerUI.ModeText.color = Color.white;
@@ -336,20 +355,26 @@ public class ActionManager : MonoBehaviour
             palBall.ballState = Pal_Ball.BallState.Summon;
         }
 
-        #endregion
+    #endregion
 
 
-        //ToDo: 따로 키를 눌러서 소환하기보다는 모드가 선택됐을때 자동으로 손에 소환되고 던진후에도 자동으로 손에 스폰되게하는게 더 자연스러울거 같다.
+    //ToDo: 따로 키를 눌러서 소환하기보다는 모드가 선택됐을때 자동으로 손에 소환되고 던진후에도 자동으로 손에 스폰되게하는게 더 자연스러울거 같다.
+
         #region Spawing&Releasing PalBall // 팔볼을 손에 소환
         rightHandPos = this.transform.position + inputActionAsset.actionMaps[4].actions[0].ReadValue<Vector3>();// 오른손 컨트롤러 값 받아오기
         if (modeSelect == ModeSelect.Catch || modeSelect == ModeSelect.Pal)
         {
-           
+
 
             if (isHoldingBall)
             {
-               
+
                 palBallGo.transform.localPosition = rightHandPos;
+                palBallGo.GetComponent<Rigidbody>().isKinematic = true;
+              
+               
+                
+             
 
                 if (isPalBallSpawnActive)
                 {
@@ -360,7 +385,10 @@ public class ActionManager : MonoBehaviour
 
 
             }
-           
+            else
+            {
+                palBallGo.GetComponent<Rigidbody>().isKinematic = false;
+            }
         }
 
 
@@ -410,5 +438,10 @@ public class ActionManager : MonoBehaviour
                 ModeMenuCanvas.SetActive(true);
             }
         }
+    }
+
+    private void LateUpdate()
+    {
+      
     }
 }

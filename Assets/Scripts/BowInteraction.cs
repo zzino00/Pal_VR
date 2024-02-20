@@ -19,6 +19,7 @@ public class BowInteraction : XRBaseInteractable// XRBaseInteractable을 상속
                                                          // IXRSelectInteractable이건 상호작용이 가능한 물체
 
 
+
     protected override void Awake()
     {
         base.Awake();
@@ -38,6 +39,7 @@ public class BowInteraction : XRBaseInteractable// XRBaseInteractable을 상속
         pullingInteractor = null;
         pullAmount = 0.0f;
         notch.transform.localPosition = new Vector3(notch.transform.localPosition.x, notch.transform.localPosition.y, 0f);
+       
         UpdateString();
     }
 

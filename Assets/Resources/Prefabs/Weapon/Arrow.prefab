@@ -43,6 +43,8 @@ GameObject:
   - component: {fileID: 1375338506890275923}
   - component: {fileID: 712607388907955803}
   - component: {fileID: 3375488817508159639}
+  - component: {fileID: -7946382812672597515}
+  - component: {fileID: 4552011447918113823}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Weapon
@@ -108,6 +110,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   tip: {fileID: 8772187173245913412}
+--- !u!114 &-7946382812672597515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2433175711065991406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b54155c1af86ac44bbcc6f43041bb49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponType: 2
+  myStat:
+    Id: 4
+    name: Arrow
+    damage: 3
+    durability: 1
+  weaponState: 0
+  myId: 4
+  targetHandTrs: {fileID: 0}
+--- !u!135 &4552011447918113823
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2433175711065991406}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.01
+  m_Center: {x: 0, y: 0, z: 0.24}
 --- !u!1 &6199133294038445116
 GameObject:
   m_ObjectHideFlags: 0

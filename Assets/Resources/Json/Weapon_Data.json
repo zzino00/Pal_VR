@@ -10,7 +10,7 @@
     {
       "Id": "2",
       "name": "Bow",
-      "damage": "2",
+      "damage": "1",
       "durability": "10"
 
     },
@@ -19,6 +19,12 @@
       "name": "Axe",
       "damage": "7",
       "durability": "12"
+    },
+    {
+      "Id": "4",
+      "name": "Arrow",
+      "damage": "3",
+      "durability": "1"
     }
   ]
 }
