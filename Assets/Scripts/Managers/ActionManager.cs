@@ -143,6 +143,10 @@ public class ActionManager : MonoBehaviour
                     player.ChoosePal(isScrollRight);
 
                     break;
+
+                case ModeSelect.Inven:
+                    player.ChooseItem(isScrollRight);
+                    break;
             }
             //UI에 표시
             playerUI.ModeNextText.gameObject.SetActive(true);
@@ -164,12 +168,13 @@ public class ActionManager : MonoBehaviour
                         case ModeSelect.Weapon:
                             player.ChooseWeapon(isScrollRight);
                            
-                               
-                            
-                           
                             break;
                         case ModeSelect.Pal:
                             player.ChoosePal(isScrollRight);
+                            break;
+
+                        case ModeSelect.Inven:
+                            player.ChooseItem(isScrollRight);
                             break;
                     }
                     ScrollSpeed = 0;
@@ -192,6 +197,9 @@ public class ActionManager : MonoBehaviour
                             break;
                         case ModeSelect.Pal:
                             player.ChoosePal(isScrollRight);
+                            break;
+                        case ModeSelect.Inven:
+                            player.ChooseItem(isScrollRight);
                             break;
                     }
                     ScrollSpeed = 0;
@@ -423,7 +431,8 @@ public class ActionManager : MonoBehaviour
         #endregion
 
 
-        if(isShowMenuActive == true)
+        #region 메뉴창 열기
+        if (isShowMenuActive == true)
         {
             if(isShowingMenu)
             {
@@ -438,7 +447,22 @@ public class ActionManager : MonoBehaviour
                 ModeMenuCanvas.SetActive(true);
             }
         }
+        #endregion
+
+
+
+
+        #region 아이템 꺼내기
+        if (modeSelect == ModeSelect.Inven)
+        {
+
+        }
+
+    #endregion
     }
+
+
+
 
     private void LateUpdate()
     {

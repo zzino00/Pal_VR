@@ -1806,6 +1806,7 @@ MonoBehaviour:
   Index: 0
   playerUI: {fileID: 0}
   equipedWeapon: {fileID: 0}
+  heldItem: {fileID: 0}
   RightHand: {fileID: 0}
   LeftHand: {fileID: 0}
   ammo: 0

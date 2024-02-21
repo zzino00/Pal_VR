@@ -22,7 +22,10 @@ public class Player : MonoBehaviour
     public PlayerUI playerUI;
     Monster monster;
     Weapon weapon;
+    Item item;
+  
     public GameObject equipedWeapon;
+    public GameObject heldItem;
     public GameObject RightHand;
     public GameObject LeftHand;
     public int ammo = 10;
@@ -103,6 +106,61 @@ public class Player : MonoBehaviour
         playerUI.ModeNextText.text = monsterGoList[nextIndex].GetComponent<Monster>().myStat.name;
 
      
+    }
+    public void ShowItemList()// 팰의 이전항목과 이후항목을 보여주는 함수
+    {
+
+        int prevIndex = Index - 1;
+        int nextIndex = Index + 1;
+
+        if (prevIndex < 0)
+        {
+            prevIndex = myItemList.Count - 1;
+        }
+
+        if (nextIndex >= myItemList.Count)
+        {
+            nextIndex %= myItemList.Count;
+        }
+        playerUI.ModePreviousText.text = myItemList[prevIndex].GetComponent<Item>().myStat.name;
+        playerUI.ModeNextText.text = myItemList[nextIndex].GetComponent<Item>().myStat.name;
+
+    }
+    public void ChooseItem(bool isScrollRight)
+    {
+
+        if (GetComponent<ActionManager>().isScroll)
+        {
+
+            if (isScrollRight == true)// 무기 선택시 이전항목으로 넘길지 이후항목으로 넘길지 bool변수로 선택
+            {
+                MoveToNextIndex(myItemList);
+            }
+            else
+            {
+                MoveToPrevIndex(myItemList);
+            }
+        }
+     if(myItemList.Count>0)
+        {
+            heldItem = myItemList[Index];
+            //    GameObject newItem = Instantiate(heldItem,RightHand.transform);
+            item = heldItem.GetComponent<Item>();
+            item.itemState = Item.ItemState.Owned;
+            heldItem.SetActive(true);
+            heldItem.transform.position = RightHand.transform.position;
+            Rigidbody rigid = heldItem.GetComponent<Rigidbody>();
+            rigid.isKinematic = true;
+            playerUI.ModeText.text = heldItem.GetComponent<Item>().myStat.name + "x" + heldItem.GetComponent<Item>().ItemCount;
+            ShowItemList();
+            //item.ItemCount--;
+        }
+        else
+        {
+            playerUI.ModeText.text = " ";
+        }
+
+
     }
     public void ChooseWeapon(bool isScrollRight)// 무기를 리스트에서 고르는 함수
     {

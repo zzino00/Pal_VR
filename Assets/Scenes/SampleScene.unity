@@ -4362,7 +4362,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 4.5904e-41, y: 3.1943694e+20, z: 4.5904e-41, w: 9.403955e-38}
+  m_BoundingSphereOverride: {x: 4.5904e-41, y: -7.528808e-14, z: 4.5904e-41, w: 9.403955e-38}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -5409,6 +5409,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2496039106687938761}
     - target: {fileID: 4864121551207436397, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
+      propertyPath: heldItem
+      value: 
+      objectReference: {fileID: 1986993501}
+    - target: {fileID: 4864121551207436397, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
       propertyPath: playerUI
       value: 
       objectReference: {fileID: 257983720}
@@ -5716,6 +5720,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 609780706156884012, guid: 151be6ad08180bc4db51ea5effb8eb74, type: 3}
+      propertyPath: palState
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4514733920882269420, guid: 151be6ad08180bc4db51ea5effb8eb74, type: 3}
       propertyPath: m_Name
       value: Test_Monster2

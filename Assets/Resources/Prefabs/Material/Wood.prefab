@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: -5130981142003467481}
   - component: {fileID: -7005591555729773342}
   - component: {fileID: 8502237114876890558}
+  - component: {fileID: 6223944757792183345}
   m_Layer: 0
   m_Name: Wood
   m_TagString: Untagged
@@ -249,7 +250,7 @@ Transform:
   - {fileID: 6119545862186388316}
   - {fileID: 5191407482349774156}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7962623769592200871
 MonoBehaviour:
@@ -268,6 +269,8 @@ MonoBehaviour:
     Id: 0
     name: 
     discription: 
+  ItemCount: 0
+  itemState: 0
 --- !u!54 &-5130981142003467481
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -329,7 +332,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
-  m_Colliders: []
+  m_Colliders:
+  - {fileID: -7005591555729773342}
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -464,3 +468,24 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
+--- !u!135 &6223944757792183345
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7690933749555722560}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
