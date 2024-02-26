@@ -113,7 +113,7 @@ public class ActionManager : MonoBehaviour
 
     List<GameObject> TargetList = new List<GameObject>();// 상황에따라 몬스터나 무기리스트로 사용
 
-
+    bool isItemSpawnable = true;
     public void ScrollList(float TriggerValue)
     {
       //ToDo: 가능하면 코드를 깔끔하게 수정
@@ -129,6 +129,7 @@ public class ActionManager : MonoBehaviour
                 break;
         }
 
+      
         if (TriggerValue > 0.5 && TargetList.Count != 0)// 트리거가 당겨져있는 상태에서
         {
             isScroll = false;
@@ -145,7 +146,12 @@ public class ActionManager : MonoBehaviour
                     break;
 
                 case ModeSelect.Inven:
-                    player.ChooseItem(isScrollRight);
+                    if(isItemSpawnable)
+                    {
+                        player.ChooseItem(isScrollRight);
+                        isItemSpawnable = false;
+                    }
+                
                     break;
             }
             //UI에 표시
@@ -211,6 +217,8 @@ public class ActionManager : MonoBehaviour
             playerUI.ModeNextText.gameObject.SetActive(false);
             playerUI.ModePreviousText.gameObject.SetActive(false);
             playerUI.ModeText.color = Color.white;
+            isItemSpawnable = true;
+
         }
     }// 리스트에서 선택후 소환하는 함수
 
@@ -285,7 +293,10 @@ public class ActionManager : MonoBehaviour
                 {
                     playerUI.moveModeText.gameObject.SetActive(true);
                 }
+
             }
+
+            
             playerUI.ModeText.text = modeSelect.ToString();
             playerUI.ModeText.color = Color.white;
         }
@@ -377,7 +388,7 @@ public class ActionManager : MonoBehaviour
             if (isHoldingBall)
             {
 
-                palBallGo.transform.localPosition = rightHandPos;
+                palBallGo.transform.position = rightHandPos;
                 palBallGo.GetComponent<Rigidbody>().isKinematic = true;
               
                

@@ -10,11 +10,12 @@ public class Item : MonoBehaviour
     public Item_Stat myStat;
     Player player;
     public int ItemCount = 0;
-    public ItemState itemState;
+    public ItemState itemState=ItemState.Unowned;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        itemState = ItemState.Unowned;
+      
         
     }
     public enum ItemState// 소유중인지 필드에 있는지
@@ -34,16 +35,18 @@ public class Item : MonoBehaviour
             {
                 player.myItemList.Add(gameObject);
                 ItemCount++;
-                Debug.Log(player.myItemList[0].GetComponent<Item>().myStat.name + player.myItemList[0].GetComponent<Item>().ItemCount);
+              
             }
             else
             {
+                Debug.Log("ItemCount+");
                 for (int i = 0; i < player.myItemList.Count; i++)
                 {
                     if (myId == player.myItemList[i].GetComponent<Item>().myId)
                     {
                         player.myItemList[i].GetComponent<Item>().ItemCount++;
-                        Debug.Log(player.myItemList[i].GetComponent<Item>().myStat.name + player.myItemList[i].GetComponent<Item>().ItemCount);
+                      
+
                         break;
                     }
                     else
@@ -52,7 +55,7 @@ public class Item : MonoBehaviour
                         {
                             player.myItemList.Add(gameObject);
                             player.myItemList[i+1].GetComponent<Item>().ItemCount++;
-                            Debug.Log(player.myItemList[i+1].GetComponent<Item>().myStat.name + player.myItemList[i+1].GetComponent<Item>().ItemCount);
+                       
                             break;
                         }
                       
@@ -64,9 +67,15 @@ public class Item : MonoBehaviour
 
             itemState = ItemState.Owned;
             gameObject.SetActive(false);
+            if(player.myItemList[player.Index].GetComponent<Item>() != null)
+            {
+                player.playerUI.ModeText.text = player.myItemList[player.Index].GetComponent<Item>().myStat.name + "x" + player.myItemList[player.Index].GetComponent<Item>().ItemCount;
+            }
+           
         }
     }
 
+ 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "RightHand")
@@ -74,6 +83,7 @@ public class Item : MonoBehaviour
             Rigidbody rigid = gameObject.GetComponent<Rigidbody>();
             rigid.isKinematic = false;
             itemState = ItemState.Unowned;
+            Debug.Log("Item Spawn");
             for (int i = 0; i < player.myItemList.Count; i++)
             {
                 if (myId == player.myItemList[i].GetComponent<Item>().myId)
@@ -81,14 +91,22 @@ public class Item : MonoBehaviour
                     if (player.myItemList[i].GetComponent<Item>().ItemCount<=0)
                     {
                         player.myItemList.Remove(player.myItemList[i]);
+                        Debug.Log("Remove from List");
                     }
                     else
                     {
                         player.myItemList[i].GetComponent<Item>().ItemCount--;
+                        Debug.Log("-ItemCount");
+                        break;
+                     
                     }
-                  
+                   
                 }
                 
+            }// ToDo: 현재는 아이템을 획득하면 모드와 관계없이 해당아이템의 종류와 개수가 표시됨, 모드가 Inven일때만 작동하게 설정할것
+            if (player.myItemList[player.Index].GetComponent<Item>() != null)
+            {
+                player.playerUI.ModeText.text = player.myItemList[player.Index].GetComponent<Item>().myStat.name + "x" + player.myItemList[player.Index].GetComponent<Item>().ItemCount;
             }
         }
     }

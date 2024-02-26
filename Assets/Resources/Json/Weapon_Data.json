@@ -1,30 +1,38 @@
 {
+  
   "weapon_Datas": [
     {
       "Id": "1",
       "name": "Sword",
       "damage": "5",
-      "durability": "7"
+      "durability": "7",
+      "craftMethod": [ 0, 1, 1 ],
+      "craftMethodText": "Wood x 1 + Stone x 1"
 
     },
     {
       "Id": "2",
       "name": "Bow",
       "damage": "1",
-      "durability": "10"
-
+      "durability": "10",
+      "craftMethod": [ 0, 2, 0, 1 ],
+      "craftMethodText": "Wood x 2 + String x 1"
     },
     {
       "Id": "3",
       "name": "Axe",
       "damage": "7",
-      "durability": "12"
+      "durability": "12",
+      "craftMethod": [ 0, 1, 2 ],
+      "craftMethodText": "Wood x 1 + Stone x 2"
     },
     {
       "Id": "4",
       "name": "Arrow",
       "damage": "3",
-      "durability": "1"
+      "durability": "1",
+      "craftMethod": [ 0, 1 ],
+      "craftMethodText": "Wood x 1"
     }
   ]
 }

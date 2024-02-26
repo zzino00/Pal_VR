@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6119545862186388316}
   - component: {fileID: 4010982223664839342}
   - component: {fileID: 1424675432862312865}
-  - component: {fileID: 5074686654787173441}
   m_Layer: 0
   m_Name: body
   m_TagString: Untagged
@@ -27,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6062798945655995560}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.31719035, y: 0.07955688, z: -0.14213443}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.2, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -84,29 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &5074686654787173441
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6062798945655995560}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &6183172652139694154
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +94,6 @@ GameObject:
   - component: {fileID: 5191407482349774156}
   - component: {fileID: 4591600023375788981}
   - component: {fileID: 3280980426254327969}
-  - component: {fileID: 665618695661431529}
   m_Layer: 0
   m_Name: branch
   m_TagString: Untagged
@@ -134,7 +109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6183172652139694154}
   m_LocalRotation: {x: 0.49179724, y: -0, z: -0, w: 0.8707098}
-  m_LocalPosition: {x: -0.31719035, y: 0.146, z: -0.051}
+  m_LocalPosition: {x: 0, y: 0.063, z: 0.079}
   m_LocalScale: {x: 0.05, y: 0.1, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -191,29 +166,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &665618695661431529
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6183172652139694154}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &7690933749555722560
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,10 +179,9 @@ GameObject:
   - component: {fileID: -5130981142003467481}
   - component: {fileID: -7005591555729773342}
   - component: {fileID: 8502237114876890558}
-  - component: {fileID: 6223944757792183345}
   m_Layer: 0
   m_Name: Wood
-  m_TagString: Untagged
+  m_TagString: Material
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -468,24 +419,3 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
---- !u!135 &6223944757792183345
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7690933749555722560}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.1
-  m_Center: {x: 0, y: 0, z: 0}

@@ -11,6 +11,7 @@ TagManager:
   - Ground
   - RightHand
   - Weapon
+  - Material
   layers:
   - Default
   - TransparentFX

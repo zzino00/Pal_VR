@@ -141,18 +141,26 @@ public class Player : MonoBehaviour
                 MoveToPrevIndex(myItemList);
             }
         }
-     if(myItemList.Count>0)
+
+        if(myItemList.Count>0)
         {
-            heldItem = myItemList[Index];
-            //    GameObject newItem = Instantiate(heldItem,RightHand.transform);
-            item = heldItem.GetComponent<Item>();
-            item.itemState = Item.ItemState.Owned;
-            heldItem.SetActive(true);
-            heldItem.transform.position = RightHand.transform.position;
-            Rigidbody rigid = heldItem.GetComponent<Rigidbody>();
-            rigid.isKinematic = true;
-            playerUI.ModeText.text = heldItem.GetComponent<Item>().myStat.name + "x" + heldItem.GetComponent<Item>().ItemCount;
-            ShowItemList();
+           
+            if(myItemList[Index]!=null&& myItemList[Index].GetComponent<Item>().ItemCount>0)
+            {
+
+                GameObject newItem = Instantiate(myItemList[Index], RightHand.transform.position, RightHand.transform.rotation);
+                item = newItem.GetComponent<Item>();
+                item.itemState = Item.ItemState.Owned;
+                newItem.SetActive(true);
+
+                // newItem.transform.position = RightHand.transform.position;
+                Rigidbody rigid = newItem.GetComponent<Rigidbody>();
+                rigid.isKinematic = true;
+                playerUI.ModeText.text = item.myStat.name + "x" + item.ItemCount;
+                ShowItemList();
+
+            }
+         
             //item.ItemCount--;
         }
         else

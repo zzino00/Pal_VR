@@ -33,6 +33,8 @@ public class Weapon_Stat
     public string name;
     public int damage;
     public int durability;
+    public  int[] craftMethod;
+    public string craftMethodText;
 }
 
 [Serializable]
