@@ -8,6 +8,7 @@ public class MonsterUI : MonoBehaviour
 {
     public TMP_Text monsterName;
     public TMP_Text catchProb;
+    public Image CatchImage;
     public float CurrentHP;
     public Slider slider;
 }

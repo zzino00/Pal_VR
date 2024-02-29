@@ -1,9 +1,18 @@
 {
     "playerWeaponDatas": [
-        3,
-        2
+        1
     ],
-    "playerPalDatas": [
-        3
+    "playerPalDatas": [],
+    "playerItemDatas": [
+        4,
+        3,
+        2,
+        1
+    ],
+    "playerItemCount": [
+        1,
+        1,
+        1,
+        1
     ]
 }

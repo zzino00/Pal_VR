@@ -1,0 +1,12 @@
+Arrow extracted from Breath of the Wild.
+
+Moderator note:
+.dae model and textures saved from Switch Toolbox. Models checked in Blender and View3dScene. Only one UV map seen in Blender.
+
+Tools
+Switch Toolbox by KillzXGaming
+View3dScene
+Blender 2.78c
+
+AJD-262
+Dec 28 2020

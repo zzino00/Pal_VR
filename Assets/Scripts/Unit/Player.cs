@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public List<GameObject> myWeaponList = new List<GameObject>();// 무기 오브젝트 저장 리스트
     public List<GameObject> monsterGoList = new List<GameObject>();// 몬스터 오브젝트를 저장하는 리스트
     public List<GameObject> myItemList = new List<GameObject>();
+    public List<int> myItemCount = new List<int>();
                         
     public GameObject palBall; // 위치를 받아오기위한 팔볼 오브젝트
     public Transform summonTrs; // 소환할 위치
@@ -30,13 +31,18 @@ public class Player : MonoBehaviour
     public GameObject LeftHand;
     public int ammo = 10;
 
-   
+    public ActionManager actionManager;
+
+    private void Start()
+    {
+        actionManager = GetComponentInChildren<ActionManager>();
+    }
     public void SummonPal()
     {
         if (monsterGoList.Count != 0 )
         {
             summonedPal.SetActive(true);//활성화
-            summonedPal.transform.position = summonTrs.position;//소환위치는 팔볼의 위치
+            summonedPal.transform.position = summonTrs.position+new Vector3(0,summonedPal.transform.lossyScale.y/2- (float)0.05,0);//소환위치는 팔볼의 위치
         }
              
     }
@@ -145,7 +151,7 @@ public class Player : MonoBehaviour
         if(myItemList.Count>0)
         {
            
-            if(myItemList[Index]!=null&& myItemList[Index].GetComponent<Item>().ItemCount>0)
+            if (myItemList[Index].GetComponent<Item>().ItemCount > 0&&myItemList[Index]!=null)
             {
 
                 GameObject newItem = Instantiate(myItemList[Index], RightHand.transform.position, RightHand.transform.rotation);
@@ -187,7 +193,6 @@ public class Player : MonoBehaviour
             }
         }
         
-        
         equipedWeapon = myWeaponList[Index];// 정해진 인덱스의 무기를 현재무기로
         weapon = equipedWeapon.GetComponent<Weapon>();
         DataManager.instance.weaponDict.TryGetValue(weapon.myId, out weapon.myStat);// ToDo:여기도 무기값 weaopon.cs에서 가져오게하자
@@ -218,9 +223,7 @@ public class Player : MonoBehaviour
             {
                 MoveToPrevIndex(monsterGoList);
             }
-
         }
-     
         summonedPal = monsterGoList[Index];// 인덱스에 따라 소환할 몬스터 설정
         monster = summonedPal.GetComponent<Monster>();
         DataManager.instance.palDict.TryGetValue(monster.myId, out monster.myStat);// 소환할 몬스터 스텟은 dictionary에서 id로 찾아서 넣어줌

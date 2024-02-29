@@ -69,6 +69,8 @@ public class Player_Data // 플레이어가 현재 데이터
 {
     public List<int> playerWeaponDatas = new List<int>();
     public List<int> playerPalDatas = new List<int>();
+    public List<int> playerItemDatas = new List<int>();
+    public List<int> playerItemCount = new List<int>();
 }
 
 
@@ -119,6 +121,11 @@ public class DataManager : MonoBehaviour
     [ContextMenu("To Json Data")]// 테스트용 코드 , 컴포넌트 메뉴에 아래함수를 호출하는 명령어가 생김
     public void SavePlayerData()
     {
+        playerData.playerWeaponDatas.Clear();
+        playerData.playerPalDatas.Clear();
+        playerData.playerItemDatas.Clear();
+        player.myItemCount.Clear();
+
         foreach (GameObject myWeapon in player.myWeaponList)// Player.cs에 있는 리스트에서 무기항목들을 가져와서 playerWeaponDatas에 저장
         {
             Weapon playerWeapon = myWeapon.GetComponent<Weapon>();
@@ -130,6 +137,13 @@ public class DataManager : MonoBehaviour
             Monster monster = myPal.GetComponent<Monster>();
             playerData.playerPalDatas.Add(monster.myId);
         }
+
+        foreach (GameObject myItem in player.myItemList)// Player.cs에 있는 리스트에서 팰항목들을 가져와서 playerPalDatas에 저장
+        {
+            Item Item = myItem.GetComponent<Item>();
+            playerData.playerItemDatas.Add(Item.myId);
+            playerData.playerItemCount.Add(Item.ItemCount);
+        }
         Debug.Log("Saved");
         string jsonData = JsonUtility.ToJson(playerData, true);//플레이어 데이터를 json형식 string으로 변환
 
@@ -140,6 +154,11 @@ public class DataManager : MonoBehaviour
     [ContextMenu("Load Json Data")]// 테스트용 코드 , 컴포넌트 메뉴에 아래함수를 호출하는 명령어가 생김
     public void LoadPlayerData()
     {
+        player.myWeaponList.Clear();
+        player.monsterGoList.Clear();
+        player.myItemList.Clear();
+        player.myItemCount.Clear();
+
         TextAsset playerDataText = Resources.Load<TextAsset>("Json/Player_Data");// 지정된 경로에서 데이터 찾기
         playerData = JsonUtility.FromJson<Player_Data>(playerDataText.text);// Json양식에서 읽을수 있게 변환
         foreach (int playerWeaponId in playerData.playerWeaponDatas)//playerWeaponDatas를 돌면서 
@@ -174,6 +193,30 @@ public class DataManager : MonoBehaviour
             loadedPal.SetActive(false);
         }
 
+        foreach (int playerItemId in playerData.playerItemDatas)
+        {
+            GameObject newItem;
+            newItem = Resources.Load($"Prefabs/Material/{playerItemId.ToString()}") as GameObject;
+            if (newItem == null)
+            {
+                Debug.Log("Load Failed");
+            }
+
+            GameObject loadedItem = Instantiate(newItem);
+            player.myItemList.Add(loadedItem);
+            player.heldItem = player.myItemList[0];
+            player.heldItem.SetActive(false);
+        }
+
+        foreach (int ItemCount in playerData.playerItemCount)
+        {
+            player.myItemCount.Add(ItemCount);
+        }
+
+        for(int i=0; i<player.myItemList.Count; i++)
+        {
+            player.myItemList[i].GetComponent<Item>().ItemCount = player.myItemCount[i];
+        }
 
     }
 }

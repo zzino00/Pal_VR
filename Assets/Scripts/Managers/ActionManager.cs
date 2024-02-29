@@ -24,7 +24,7 @@ public class ActionManager : MonoBehaviour
     public GameObject MenuCanvas;
     public GameObject ModeMenuCanvas;
     Pal_Ball palBall;
-    ModeSelect modeSelect = 0;
+    public ModeSelect modeSelect = 0;
     public enum MoveMode// 이동모드
     {
         Walk,
@@ -68,6 +68,10 @@ public class ActionManager : MonoBehaviour
 
         moveMode = MoveMode.Teleport;//이동모드가 기본값
         playerUI.moveModeText.text = "Teleport";
+        playerUI.ModeText.text = "Start";
+        playerUI.ModeNextText.text = "";
+        playerUI.ModePreviousText.text = "";
+
         moveProvider.enabled = false;// 텔레포트모드일때는 Walk못하게
         lineVisual.enabled = true;
         lineVisual.reticle.SetActive(true);
@@ -225,6 +229,8 @@ public class ActionManager : MonoBehaviour
     int prevMode;
     int nextMode;
 
+    public bool isStartScene = true;
+
 
 
     private void Update()
@@ -232,186 +238,191 @@ public class ActionManager : MonoBehaviour
         rightThumbValue =inputActionAsset.actionMaps[5].actions[10].ReadValue<Vector2>();// 오른손 조이스틱 값
         TriggerValue = inputActionAsset.actionMaps[5].actions[11].ReadValue<float>();//오른손 트리거 값
         rightHandRotationZ = inputActionAsset.actionMaps[4].actions[1].ReadValue<Quaternion>().eulerAngles.z;// 오른손 z축 회전값
-      
 
-        //무기및 팰 선택후 소환
-        ScrollList(TriggerValue);
-
-        #region SelectMode // 모드 선택
-
-        if (rightThumbValue.y > 0.5) // 오른손 조이스틱이 위쪽으로 밀려있는 상태에서
+        if (!isStartScene)
         {
-            isRightThumbUp = true;
-            // 이전 이후 모드 표시
-            playerUI.ModeUpText.gameObject.SetActive(true);// 이후모드 텍스트 보여주기
-            playerUI.ModeDownText.gameObject.SetActive(true);// 이전모드 텍스트 보여주기
-            playerUI.ModeText.color = Color.green;// 현재 사용중인 모드색 초록색으로 변경
-            nextMode = (int)modeSelect + 1;
-            prevMode = (int)modeSelect -1;
+            //무기및 팰 선택후 소환
+            ScrollList(TriggerValue);
 
-            //리스트밖으로 벗어나는 인덱스 처리
-            if ((int)nextMode > 3)
-            {
-                nextMode = 0;
-            }
-            if ((int)prevMode < 0)
-            {
-                prevMode = 3;
-            }
-            playerUI.ModeUpText.text = ((ModeSelect)nextMode).ToString();
-            playerUI.ModeDownText.text = ((ModeSelect)prevMode).ToString();
-            //
-        }
-        else if (rightThumbValue.y <= 0.5 && isRightThumbUp == true)// 다시 제자리로 돌아오면
-        {
-            playerUI.ModeUpText.gameObject.SetActive(false);// 이전모드 텍스트 비활성화
-            playerUI.ModeDownText.gameObject.SetActive(false); //이후모드 텍스트 비활성화
-            modeSelect++;// 모드 하나 넘기기
-            if((int)modeSelect >3)
-            {
-                modeSelect = 0;
-            }
+            #region SelectMode // 모드 선택
 
-          
-            player.Index = 0;
-            isRightThumbUp = false;
+            if (rightThumbValue.y > 0.5) // 오른손 조이스틱이 위쪽으로 밀려있는 상태에서
+            {
+                isRightThumbUp = true;
+                // 이전 이후 모드 표시
+                playerUI.ModeUpText.gameObject.SetActive(true);// 이후모드 텍스트 보여주기
+                playerUI.ModeDownText.gameObject.SetActive(true);// 이전모드 텍스트 보여주기
+                playerUI.ModeText.color = Color.green;// 현재 사용중인 모드색 초록색으로 변경
+                nextMode = (int)modeSelect + 1;
+                prevMode = (int)modeSelect - 1;
 
-            if (modeSelect != ModeSelect.Weapon)// 모드가 weapon이 아니면 착용중인 무기 비활성화
-            {
-                player.equipedWeapon.SetActive(false);
-                rayInteractorR.enabled = true;
-                playerUI.moveModeText.gameObject.SetActive(true);
-            }
-            else
-            {
-                rayInteractorR.enabled = false;
-                if (player.equipedWeapon.GetComponent<Weapon>().weaponType == Weapon.WeaponType.Bow)
+                //리스트밖으로 벗어나는 인덱스 처리
+                if ((int)nextMode > 3)
                 {
-                    playerUI.moveModeText.gameObject.SetActive(false);
+                    nextMode = 0;
+                }
+                if ((int)prevMode < 0)
+                {
+                    prevMode = 3;
+                }
+                playerUI.ModeUpText.text = ((ModeSelect)nextMode).ToString();
+                playerUI.ModeDownText.text = ((ModeSelect)prevMode).ToString();
+                //
+            }
+            else if (rightThumbValue.y <= 0.5 && isRightThumbUp == true)// 다시 제자리로 돌아오면
+            {
+                playerUI.ModeUpText.gameObject.SetActive(false);// 이전모드 텍스트 비활성화
+                playerUI.ModeDownText.gameObject.SetActive(false); //이후모드 텍스트 비활성화
+                modeSelect++;// 모드 하나 넘기기
+                if ((int)modeSelect > 3)
+                {
+                    modeSelect = 0;
+                }
+
+
+                player.Index = 0;
+                isRightThumbUp = false;
+
+                if (modeSelect != ModeSelect.Weapon)// 모드가 weapon이 아니면 착용중인 무기 비활성화
+                {
+                    player.equipedWeapon.SetActive(false);
+                    rayInteractorR.enabled = true;
+                    playerUI.moveModeText.gameObject.SetActive(true);
                 }
                 else
                 {
-                    playerUI.moveModeText.gameObject.SetActive(true);
+                    rayInteractorR.enabled = false;
+                    if (player.equipedWeapon.GetComponent<Weapon>().weaponType == Weapon.WeaponType.Bow)
+                    {
+                        playerUI.moveModeText.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        playerUI.moveModeText.gameObject.SetActive(true);
+                    }
+
                 }
 
+
+                playerUI.ModeText.text = modeSelect.ToString();
+                playerUI.ModeText.color = Color.white;
             }
 
-            
-            playerUI.ModeText.text = modeSelect.ToString();
-            playerUI.ModeText.color = Color.white;
-        }
-
-        if (rightThumbValue.y < -0.5) // 오른손 조이스틱이 아래로으로 밀려있는 상태에서
-        {
-            isRightThumbDown = true;
-            playerUI.ModeUpText.gameObject.SetActive(true);
-            playerUI.ModeDownText.gameObject.SetActive(true);
-            nextMode = (int)modeSelect + 1;
-            prevMode = (int)modeSelect - 1;
-            if ((int)nextMode > 3)
+            if (rightThumbValue.y < -0.5) // 오른손 조이스틱이 아래로으로 밀려있는 상태에서
             {
-                nextMode = 0;
-            }
-            if ((int)prevMode < 0)
-            {
-                prevMode = 3;
-            }
-            playerUI.ModeUpText.text = ((ModeSelect)nextMode).ToString();
-            playerUI.ModeDownText.text = ((ModeSelect)prevMode).ToString();
-            playerUI.ModeText.color = Color.green;
-        }
-        else if (rightThumbValue.y >= -0.5 && isRightThumbDown == true)// 다시 제자리로 돌아오면
-        {
-            playerUI.ModeUpText.gameObject.SetActive(false);
-            playerUI.ModeDownText.gameObject.SetActive(false);
-            modeSelect--;
-            if ((int)modeSelect < 0)
-            {
-                modeSelect = (ModeSelect)3;
-            }
-
-            Debug.Log(modeSelect);
-            player.Index = 0;
-            isRightThumbDown = false;
-            if (modeSelect != ModeSelect.Weapon)
-            {
-                player.equipedWeapon.SetActive(false);
-                rayInteractorR.enabled = true;
-                playerUI.moveModeText.gameObject.SetActive(true);
-
-            }
-            else
-            {
-                rayInteractorR.enabled = false;
-                if (player.equipedWeapon.GetComponent<Weapon>().weaponType == Weapon.WeaponType.Bow)
+                isRightThumbDown = true;
+                playerUI.ModeUpText.gameObject.SetActive(true);
+                playerUI.ModeDownText.gameObject.SetActive(true);
+                nextMode = (int)modeSelect + 1;
+                prevMode = (int)modeSelect - 1;
+                if ((int)nextMode > 3)
                 {
-                 playerUI.moveModeText.gameObject.SetActive(false);
+                    nextMode = 0;
+                }
+                if ((int)prevMode < 0)
+                {
+                    prevMode = 3;
+                }
+                playerUI.ModeUpText.text = ((ModeSelect)nextMode).ToString();
+                playerUI.ModeDownText.text = ((ModeSelect)prevMode).ToString();
+                playerUI.ModeText.color = Color.green;
+            }
+            else if (rightThumbValue.y >= -0.5 && isRightThumbDown == true)// 다시 제자리로 돌아오면
+            {
+                playerUI.ModeUpText.gameObject.SetActive(false);
+                playerUI.ModeDownText.gameObject.SetActive(false);
+                modeSelect--;
+                if ((int)modeSelect < 0)
+                {
+                    modeSelect = (ModeSelect)3;
+                }
+
+                Debug.Log(modeSelect);
+                player.Index = 0;
+                isRightThumbDown = false;
+                if (modeSelect != ModeSelect.Weapon)
+                {
+                    player.equipedWeapon.SetActive(false);
+                    rayInteractorR.enabled = true;
+                    playerUI.moveModeText.gameObject.SetActive(true);
+
                 }
                 else
                 {
-                    playerUI.moveModeText.gameObject.SetActive(true);
+                    rayInteractorR.enabled = false;
+                    if (player.equipedWeapon.GetComponent<Weapon>().weaponType == Weapon.WeaponType.Bow)
+                    {
+                        playerUI.moveModeText.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        playerUI.moveModeText.gameObject.SetActive(true);
+                    }
                 }
+                playerUI.ModeText.text = modeSelect.ToString();
+                playerUI.ModeText.color = Color.white;
             }
-            playerUI.ModeText.text = modeSelect.ToString();
-            playerUI.ModeText.color = Color.white;
+
+
+            #endregion
+
+            #region SelectPalBallMode  //모드에 따라 팔볼의 포획,소환 여부 선택
+
+            if (modeSelect == ModeSelect.Catch)
+            {
+                palBall = palBallGo.GetComponent<Pal_Ball>();
+                palBall.ballState = Pal_Ball.BallState.Catch;
+
+            }
+
+            if (modeSelect == ModeSelect.Pal)
+            {
+                palBall = palBallGo.GetComponent<Pal_Ball>();
+                palBall.ballState = Pal_Ball.BallState.Summon;
+            }
+
+            #endregion
         }
 
-
-        #endregion
-
-        #region SelectPalBallMode  //모드에 따라 팔볼의 포획,소환 여부 선택
-
-        if (modeSelect == ModeSelect.Catch)
-        {
-            palBall = palBallGo.GetComponent<Pal_Ball>();
-            palBall.ballState = Pal_Ball.BallState.Catch;
-            
-        }
-
-        if (modeSelect == ModeSelect.Pal)
-        {
-            palBall = palBallGo.GetComponent<Pal_Ball>();
-            palBall.ballState = Pal_Ball.BallState.Summon;
-        }
-
-    #endregion
-
-
-    //ToDo: 따로 키를 눌러서 소환하기보다는 모드가 선택됐을때 자동으로 손에 소환되고 던진후에도 자동으로 손에 스폰되게하는게 더 자연스러울거 같다.
+            //ToDo: 따로 키를 눌러서 소환하기보다는 모드가 선택됐을때 자동으로 손에 소환되고 던진후에도 자동으로 손에 스폰되게하는게 더 자연스러울거 같다.
 
         #region Spawing&Releasing PalBall // 팔볼을 손에 소환
-        rightHandPos = this.transform.position + inputActionAsset.actionMaps[4].actions[0].ReadValue<Vector3>();// 오른손 컨트롤러 값 받아오기
-        if (modeSelect == ModeSelect.Catch || modeSelect == ModeSelect.Pal)
-        {
-
-
-            if (isHoldingBall)
+            rightHandPos = this.transform.position + inputActionAsset.actionMaps[4].actions[0].ReadValue<Vector3>();// 오른손 컨트롤러 값 받아오기
+            if (modeSelect == ModeSelect.Catch || modeSelect == ModeSelect.Pal)
             {
 
-                palBallGo.transform.position = rightHandPos;
-                palBallGo.GetComponent<Rigidbody>().isKinematic = true;
-              
-               
-                
-             
 
-                if (isPalBallSpawnActive)
+                if (isHoldingBall)
                 {
-                    player.UnsummonPal();// 공을 손으로 가져올때는 몬스터 역소환 ToDo: 내 몬스터는 소환한 상태로 포획용 볼을 꺼낼수도 있으니까 수정해야할수도
-                    palBallGo.SetActive(true);
-                    isPalBallSpawnActive = false;
+
+                    palBallGo.transform.position = rightHandPos;
+                    palBallGo.GetComponent<Rigidbody>().isKinematic = true;
+
+
+
+
+
+                    if (isPalBallSpawnActive&& !isStartScene)
+                    {
+                        player.UnsummonPal();// 공을 손으로 가져올때는 몬스터 역소환 ToDo: 내 몬스터는 소환한 상태로 포획용 볼을 꺼낼수도 있으니까 수정해야할수도
+                        palBallGo.SetActive(true);
+                        isPalBallSpawnActive = false;
+                    }
+
+
                 }
-
-
+                else
+                {
+                    palBallGo.GetComponent<Rigidbody>().isKinematic = false;
+                }
             }
-            else
-            {
-                palBallGo.GetComponent<Rigidbody>().isKinematic = false;
-            }
-        }
 
 
-        #endregion
+            #endregion
+      
+
+
+
 
 
         #region TeleportModeChange // 이동모드 선택
@@ -463,13 +474,9 @@ public class ActionManager : MonoBehaviour
 
 
 
-        #region 아이템 꺼내기
-        if (modeSelect == ModeSelect.Inven)
-        {
+       
 
-        }
-
-    #endregion
+ 
     }
 
 

@@ -1,0 +1,12 @@
+Goddess Sword extracted from Skyward Sword. I'm not able to find the sheath model for Goddess Sword. I have found the texture for it in 2 of the .arc.LZ file but no sign of the model. The Sword is the high detail model likely used for cut scenes.
+
+Textures are not broken. The model(s) is made use mirrored texture tiling.
+
+Tools:
+Dolphin to extract the .arc.LZ files
+Puyo Tools Bin 1.0.7 to decompress .arc.LZ files
+BREES Viewer V1.02 to convert to psk files
+Blender 2.78 via psk/psa import plug-in to save a .obj
+
+AJD-262
+March 17 2021

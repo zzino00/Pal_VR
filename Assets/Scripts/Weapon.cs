@@ -28,17 +28,19 @@ public class Weapon : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (weaponState == WeaponState.Unowned && other.gameObject.tag == "RightHand")
+        if (weaponState == WeaponState.Unowned && weaponType == WeaponType.Ammo && other.gameObject.tag == "RightHand")
+        {
+            player.ammo += 10;
+            gameObject.SetActive(false);
+        }
+        else if (weaponState == WeaponState.Unowned && other.gameObject.tag == "RightHand")
         {
             player.myWeaponList.Add(gameObject);// 플레이어 weapon리스트에 추가
             player.equipedWeapon = player.myWeaponList[0];
             gameObject.SetActive(false);
         }
 
-        if(weaponState == WeaponState.Unowned && weaponType == WeaponType.Ammo&& other.gameObject.tag == "RightHand")
-        {
-            player.ammo += 10;
-        }
+      
     }
     public void Update()
     {

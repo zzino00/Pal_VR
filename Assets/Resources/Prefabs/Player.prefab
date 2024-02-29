@@ -44,10 +44,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1702760987418007048}
   - component: {fileID: 2297817855453475325}
+  - component: {fileID: 3932521159158601054}
   - component: {fileID: 3633622678860301727}
   - component: {fileID: 153558499158998652}
   - component: {fileID: 3057057778736576746}
-  - component: {fileID: 3932521159158601054}
   m_Layer: 0
   m_Name: Locomotion System
   m_TagString: Untagged
@@ -84,6 +84,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Timeout: 10
   m_XROrigin: {fileID: 7743422200242100844}
+--- !u!114 &3932521159158601054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5897361843261880160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bf296fc962d7184ab14ad1841598d5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_System: {fileID: 2297817855453475325}
+  m_MoveSpeed: 5
+  m_EnableStrafe: 1
+  m_EnableFly: 0
+  m_UseGravity: 1
+  m_GravityApplicationMode: 0
+  m_ForwardSource: {fileID: 0}
+  m_LeftHandMoveAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Left Hand Move
+      m_Type: 0
+      m_ExpectedControlType: Vector2
+      m_Id: 7a4ed8ac-3d88-4d82-aa91-05078c00aecd
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  m_RightHandMoveAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Right Hand Move
+      m_Type: 0
+      m_ExpectedControlType: Vector2
+      m_Id: a15add49-ac70-48c3-953f-a081a4157247
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
 --- !u!114 &3633622678860301727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,49 +200,6 @@ MonoBehaviour:
   teleportProvider: {fileID: 3633622678860301727}
   actionManager: {fileID: 5250767947122394744}
   actionBasedContinuousMoveProvider: {fileID: 0}
---- !u!114 &3932521159158601054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5897361843261880160}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bf296fc962d7184ab14ad1841598d5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_System: {fileID: 2297817855453475325}
-  m_MoveSpeed: 5
-  m_EnableStrafe: 1
-  m_EnableFly: 0
-  m_UseGravity: 1
-  m_GravityApplicationMode: 0
-  m_ForwardSource: {fileID: 0}
-  m_LeftHandMoveAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Left Hand Move
-      m_Type: 0
-      m_ExpectedControlType: Vector2
-      m_Id: 7a4ed8ac-3d88-4d82-aa91-05078c00aecd
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  m_RightHandMoveAction:
-    m_UseReference: 0
-    m_Action:
-      m_Name: Right Hand Move
-      m_Type: 0
-      m_ExpectedControlType: Vector2
-      m_Id: a15add49-ac70-48c3-953f-a081a4157247
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 0}
 --- !u!1 &6209870920502180777
 GameObject:
   m_ObjectHideFlags: 0
@@ -1727,7 +1727,7 @@ Transform:
   - {fileID: 6951209767288557374}
   - {fileID: 1702760987418007048}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7743422200242100844
 MonoBehaviour:
@@ -1783,8 +1783,10 @@ MonoBehaviour:
   playerUI: {fileID: 0}
   MenuCanvas: {fileID: 0}
   ModeMenuCanvas: {fileID: 0}
+  modeSelect: 0
   moveMode: 0
   isScroll: 0
+  isStartScene: 1
 --- !u!114 &4864121551207436397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1800,6 +1802,7 @@ MonoBehaviour:
   myWeaponList: []
   monsterGoList: []
   myItemList: []
+  myItemCount: 
   palBall: {fileID: 0}
   summonTrs: {fileID: 0}
   summonedPal: {fileID: 0}
@@ -1810,3 +1813,4 @@ MonoBehaviour:
   RightHand: {fileID: 0}
   LeftHand: {fileID: 0}
   ammo: 0
+  actionManager: {fileID: 0}

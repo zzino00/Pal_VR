@@ -23,6 +23,7 @@ public class Monster : MonoBehaviour
         monsterUI.monsterName.text = myStat.name;   
         monsterUI.catchProb.text = catchProb.ToString();
         monsterUI.slider.value = myStat.curHp / myStat.maxHp;
+        monsterUI.CatchImage.fillAmount = 0;
     }
     public void ItemDrop()
     {
@@ -41,11 +42,28 @@ public class Monster : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        monsterUI.catchProb.text = catchProb.ToString();
-        monsterUI.slider.value = myStat.curHp / myStat.maxHp;
+       
         if (myStat.curHp > 0)
         {
-            catchProb = (myStat.maxHp / myStat.curHp) / 10;
+            catchProb = (myStat.maxHp / myStat.curHp) * 10;
+            catchProb = Mathf.Round(catchProb*100)*0.01f;
+            catchProb = Mathf.Clamp(catchProb, 0, 100);
+            monsterUI.catchProb.text = catchProb.ToString() + "%";
+            monsterUI.slider.value = myStat.curHp / myStat.maxHp;
+            monsterUI.CatchImage.fillAmount = catchProb / 100;
+
+            if (0<=catchProb&& catchProb <= 30)
+            {
+                monsterUI.CatchImage.color = Color.red;
+            }
+            else if(31<=catchProb&& catchProb <=70)
+            {
+                monsterUI.CatchImage.color = Color.yellow;
+            }
+            else
+            {
+                monsterUI.CatchImage.color = Color.green;
+            }
         }
 
         if (palState == PalState.Wild && other.gameObject.tag == "Weapon")
