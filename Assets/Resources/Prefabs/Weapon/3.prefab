@@ -192,7 +192,7 @@ MonoBehaviour:
   m_InteractionLayers:
     m_Bits: 4294967295
   m_DistanceCalculationMode: 1
-  m_SelectMode: 0
+  m_SelectMode: 1
   m_FocusMode: 1
   m_CustomReticle: {fileID: 0}
   m_AllowGazeInteraction: 0
@@ -340,7 +340,7 @@ MonoBehaviour:
     durability: 12
     craftMethod: 
     craftMethodText: 
-  weaponState: 1
+  weaponState: 0
   myId: 3
   targetHandTrs: {fileID: 0}
 --- !u!114 &6665315858672615061

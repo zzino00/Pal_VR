@@ -24,7 +24,7 @@ public class Craft_InputObj : MonoBehaviour
             {
                 other. gameObject.SetActive(false);// 투입한 재료아이템 비활성화
                 countNum--;
-                Count.text = countNum.ToString();// 남은 재료아이템 개수 표시
+                Count.text = "x" + countNum.ToString();// 남은 재료아이템 개수 표시
 
                 for(int i=0; i< machine.InputList.Count; i++)// 조합기의 리스트를 돌면서
                 {
@@ -32,12 +32,16 @@ public class Craft_InputObj : MonoBehaviour
                     if (machine.InputList[i].countNum==0)// 해당 리스트의 필요재료개수가 0이면(재료가 다 채워졌으면)
                     {
                         Debug.Log("Material Filled");
-                        machine.CheckCount++;// 총 재료 카운트를 올려줌
-                        if(machine.CheckCount == machine.InputList.Count)// 총 재료카운트가 투입구의 개수와 같다면
+
+
+                        machine.InputList.RemoveAt(i); // 리스트에서 해당재료를 받은 투입구를 빼줌
+                        if(machine.InputList.Count==0)// 투입구리스트의 카운트가 0이되면 재료를 다 받았다는 이야기니까
                         {
+                          
                             CheckMaterialFilled.Invoke();// 이벤트로 신호보내기
-                            Destroy(gameObject);// 투입구는 없애기
+                           
                         }
+                        Destroy(gameObject);// 투입구는 없애기
                     }
                 }
             }

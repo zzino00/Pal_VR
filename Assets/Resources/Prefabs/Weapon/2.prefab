@@ -388,7 +388,7 @@ MonoBehaviour:
     durability: 10
     craftMethod: 
     craftMethodText: 
-  weaponState: 1
+  weaponState: 0
   myId: 2
   targetHandTrs: {fileID: 0}
 --- !u!136 &6523511289477981447

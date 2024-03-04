@@ -18,4 +18,7 @@ public class StartObj : MonoBehaviour
             SceneManager.LoadScene("InGame");
         }
     }
+
+
+  
 }

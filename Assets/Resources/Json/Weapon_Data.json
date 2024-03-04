@@ -15,7 +15,7 @@
       "name": "Bow",
       "damage": "1",
       "durability": "10",
-      "craftMethod": [ 0, 2, 0, 1 ],
+      "craftMethod": [ 0, 2, 0, 0, 1 ],
       "craftMethodText": "Wood x 2 + String x 1"
     },
     {

@@ -13,6 +13,7 @@ TagManager:
   - Weapon
   - Material
   - Start
+  - StartPoint
   layers:
   - Default
   - TransparentFX
@@ -23,8 +24,8 @@ TagManager:
   - Player
   - Arrow
   - Weapon
-  - 
-  - 
+  - Pal_Ball
+  - Craft_Machine
   - 
   - 
   - 

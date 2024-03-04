@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ public class ActionManager : MonoBehaviour
     public GameObject ModeMenuCanvas;
     Pal_Ball palBall;
     public ModeSelect modeSelect = 0;
+
+    public GameObject RightHandPos;
     public enum MoveMode// 이동모드
     {
         Walk,
@@ -39,6 +42,7 @@ public class ActionManager : MonoBehaviour
         Inven
     }
 
+
     InputAction teleportModeChange;// teleport모드버튼 입력값받는 변수
     InputAction palBallSpawn;//팔볼소환입력값 받는 변수
     InputAction showMenu;// 메뉴창 열기
@@ -46,6 +50,16 @@ public class ActionManager : MonoBehaviour
     bool isPalBallSpawnActive; // 한번만 함수가 실행되게 하는 변수
     bool isShowMenuActive;
     public MoveMode moveMode;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag =="StartPoint")
+        {
+            Debug.Log("InGameStart");
+            isStartScene = false;
+        }
+     
+    }
     private void Start()
     {
         isTeleportModeSelectActive = false;
@@ -94,8 +108,8 @@ public class ActionManager : MonoBehaviour
     Vector3 MenuPos;
     private void ShowMenu(InputAction.CallbackContext context)
     {
-        MenuPos = this.transform.position + inputActionAsset.actionMaps[4].actions[0].ReadValue<Vector3>();// 오른손 컨트롤러 값 받아오기
-        MenuCanvas.transform.rotation = inputActionAsset.actionMaps[4].actions[1].ReadValue<Quaternion>();
+        MenuPos = RightHandPos.transform.position;// 오른손 컨트롤러 값 받아오기
+        MenuCanvas.transform.rotation =RightHandPos.transform.rotation;
         isShowMenuActive = true;
         isShowingMenu = !isShowingMenu;
     }
@@ -232,6 +246,11 @@ public class ActionManager : MonoBehaviour
     public bool isStartScene = true;
 
 
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+        CancelInvoke();
+    }
 
     private void Update()
     {
@@ -384,10 +403,11 @@ public class ActionManager : MonoBehaviour
             #endregion
         }
 
-            //ToDo: 따로 키를 눌러서 소환하기보다는 모드가 선택됐을때 자동으로 손에 소환되고 던진후에도 자동으로 손에 스폰되게하는게 더 자연스러울거 같다.
+        //ToDo: 따로 키를 눌러서 소환하기보다는 모드가 선택됐을때 자동으로 손에 소환되고 던진후에도 자동으로 손에 스폰되게하는게 더 자연스러울거 같다.
 
         #region Spawing&Releasing PalBall // 팔볼을 손에 소환
-            rightHandPos = this.transform.position + inputActionAsset.actionMaps[4].actions[0].ReadValue<Vector3>();// 오른손 컨트롤러 값 받아오기
+        //  rightHandPos = this.transform.position + inputActionAsset.actionMaps[4].actions[0].ReadValue<Vector3>();// 오른손 컨트롤러 값 받아오기
+        rightHandPos = RightHandPos.transform.position;
             if (modeSelect == ModeSelect.Catch || modeSelect == ModeSelect.Pal)
             {
 
@@ -398,7 +418,7 @@ public class ActionManager : MonoBehaviour
                     palBallGo.transform.position = rightHandPos;
                     palBallGo.GetComponent<Rigidbody>().isKinematic = true;
 
-
+             
 
 
 

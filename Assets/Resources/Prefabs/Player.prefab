@@ -1784,6 +1784,7 @@ MonoBehaviour:
   MenuCanvas: {fileID: 0}
   ModeMenuCanvas: {fileID: 0}
   modeSelect: 0
+  RightHandPos: {fileID: 0}
   moveMode: 0
   isScroll: 0
   isStartScene: 1

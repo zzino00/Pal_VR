@@ -14,7 +14,11 @@ public class TeleportationManager : MonoBehaviour
     [SerializeField] ActionBasedContinuousMoveProvider actionBasedContinuousMoveProvider;
     private InputAction _thumstick;
     private bool _isActive;
-
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+        CancelInvoke();
+    }
     private void Start()
     {
         rayInteractor.enableARRaycasting = false;
@@ -71,4 +75,7 @@ public class TeleportationManager : MonoBehaviour
         _isActive = false;// 이동시킨후에는 꺼주기
         rayInteractor.enabled = false;
     }
+
+
+    
 }

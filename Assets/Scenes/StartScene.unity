@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionManager: {fileID: 729400035}
+  player: {fileID: 0}
 --- !u!1001 &92517621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -548,6 +549,10 @@ PrefabInstance:
       propertyPath: equipedWeapon
       value: 
       objectReference: {fileID: 12376238}
+    - target: {fileID: 4891670246967680806, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5250767947122394744, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
       propertyPath: palBall
       value: 
@@ -568,6 +573,10 @@ PrefabInstance:
       propertyPath: MenuCanvas
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5250767947122394744, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
+      propertyPath: RightHandPos
+      value: 
+      objectReference: {fileID: 1720107159}
     - target: {fileID: 5250767947122394744, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
       propertyPath: ModeMenuCanvas
       value: 
@@ -592,6 +601,18 @@ PrefabInstance:
       propertyPath: playerData.myWeaponList.Array.data[0]
       value: 
       objectReference: {fileID: 729400030}
+    - target: {fileID: 5897361843261880160, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6209870920502180777, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6557396275719439093, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7192188287708244076, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
       value: 2147483648
@@ -640,9 +661,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7998791416392678107, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8064127997564293321, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8064127997564293321, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8064127997564293321, guid: 342218ac631ad9945848ce2e57abfaec, type: 3}
       propertyPath: m_TagString
@@ -790,7 +819,7 @@ GameObject:
   - component: {fileID: 148009652}
   - component: {fileID: 148009654}
   - component: {fileID: 148009653}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ModeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1464,7 +1493,7 @@ GameObject:
   - component: {fileID: 333769387}
   - component: {fileID: 333769389}
   - component: {fileID: 333769388}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ModeNextText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1933,7 +1962,7 @@ GameObject:
   - component: {fileID: 560149659}
   - component: {fileID: 560149661}
   - component: {fileID: 560149660}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: MoveModeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2070,7 +2099,7 @@ GameObject:
   - component: {fileID: 571946819}
   - component: {fileID: 571946821}
   - component: {fileID: 571946820}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ModeDownText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2256,7 +2285,7 @@ GameObject:
   - component: {fileID: 608380658}
   - component: {fileID: 608380660}
   - component: {fileID: 608380659}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ModeUPText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3165,7 +3194,7 @@ GameObject:
   - component: {fileID: 891005431}
   - component: {fileID: 891005433}
   - component: {fileID: 891005432}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ModeMenuCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3699,6 +3728,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StartBall
       objectReference: {fileID: 0}
+    - target: {fileID: 957785789197786921, guid: 267175b7c5a44214dbf11292cef75802, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1479706203057040217, guid: 267175b7c5a44214dbf11292cef75802, type: 3}
       propertyPath: m_Colliders.Array.size
       value: 1
@@ -3707,21 +3740,29 @@ PrefabInstance:
       propertyPath: m_Colliders.Array.data[0]
       value: 
       objectReference: {fileID: 12376244}
+    - target: {fileID: 2017618028736593941, guid: 267175b7c5a44214dbf11292cef75802, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3204022480939440149, guid: 267175b7c5a44214dbf11292cef75802, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4290507421214769849, guid: 267175b7c5a44214dbf11292cef75802, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4290507421214769849, guid: 267175b7c5a44214dbf11292cef75802, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 67.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4290507421214769849, guid: 267175b7c5a44214dbf11292cef75802, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 24.6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4290507421214769849, guid: 267175b7c5a44214dbf11292cef75802, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 21.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4290507421214769849, guid: 267175b7c5a44214dbf11292cef75802, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3771,14 +3812,26 @@ PrefabInstance:
       propertyPath: m_TwoHandedRotationMode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5562442152801357458, guid: 267175b7c5a44214dbf11292cef75802, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 5796649676151608073, guid: 267175b7c5a44214dbf11292cef75802, type: 3}
       propertyPath: m_CollisionDetection
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234761821424460688, guid: 267175b7c5a44214dbf11292cef75802, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8513754742327563348, guid: 267175b7c5a44214dbf11292cef75802, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 729400034}
+    - target: {fileID: 8603478459269306830, guid: 267175b7c5a44214dbf11292cef75802, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4541,7 +4594,7 @@ GameObject:
   - component: {fileID: 1577167348}
   - component: {fileID: 1577167350}
   - component: {fileID: 1577167349}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ModePrevText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5351,7 +5404,7 @@ GameObject:
   - component: {fileID: 1907477082}
   - component: {fileID: 1907477084}
   - component: {fileID: 1907477083}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

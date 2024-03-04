@@ -23,7 +23,7 @@ public class Pal_Ball : MonoBehaviour
         if (ballState ==BallState.Catch&& collision.gameObject.tag == "Monster")
         {
             Debug.Log("monster Captured");
-            float rand = Random.Range(0.0f, 1.0f);
+            float rand = Random.Range(0.0f, 100.0f);
        
             if(rand<= collision.gameObject.GetComponent<Monster>().catchProb)
             {

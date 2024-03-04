@@ -43,7 +43,7 @@ public class Monster : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
        
-        if (myStat.curHp > 0)
+        if (myStat.curHp > 0&& other.gameObject.tag == "Weapon")
         {
             catchProb = (myStat.maxHp / myStat.curHp) * 10;
             catchProb = Mathf.Round(catchProb*100)*0.01f;

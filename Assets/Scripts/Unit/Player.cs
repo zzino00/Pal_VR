@@ -233,6 +233,12 @@ public class Player : MonoBehaviour
        
     }
 
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+        CancelInvoke();
+    }
+
     public void UnsummonPal()
     {
         summonedPal.SetActive(false);
